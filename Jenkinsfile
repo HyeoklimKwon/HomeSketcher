@@ -43,8 +43,8 @@ pipeline {
 
 //                         업데이트된 코드로 빌드 및 실행
                         sh 'docker compose up -d'
-                        sh 'docker exec -it django python3 manage.py makemigrations'
-                        sh 'docker exec -it django python3 manage.py migrate'
+                        sh 'docker exec -t django python3 manage.py makemigrations'
+                        sh 'docker exec -t django python3 manage.py migrate'
                     }
                 }
             }
