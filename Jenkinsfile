@@ -19,7 +19,7 @@ pipeline {
             }
         }
 
-        stage('Docker stop'){
+        stage('[BE]Docker stop'){
             steps {
                 dir('BE'){
                     sh 'echo "Docker Container Stop"'
@@ -41,11 +41,11 @@ pipeline {
             }
         }
 
-        stage('Remove Docker Image'){
+        stage('[BE]RM Docker Image'){
             steps {
                 sh 'echo "Remove Docker Image"'
                 sh 'docker rm django'
-                sh 'docker rmi backend_django'
+                sh 'docker rmi homesketcher-django'
 
             }
             post {
@@ -55,21 +55,21 @@ pipeline {
             }
         }
 
-        stage('Bulid Gradle') {
-            steps {
-                sh 'echo "Bulid Gradle Start"'
-                dir('BE') {
+        // stage('[BE]Bulid Gradle') {
+        //     steps {
+        //         sh 'echo "Bulid Gradle Start"'
+        //         dir('BE') {
                     
-                }
-            }
-            post {
-                 failure {
-                     sh 'echo "Bulid Gradle Fail"'
-                }
-            }
-        }
+        //         }
+        //     }
+        //     post {
+        //          failure {
+        //              sh 'echo "Bulid Gradle Fail"'
+        //         }
+        //     }
+        // }
 
-        stage('Bulid & Run') {
+        stage('[BE]Bulid & Run') {
             steps {
                 dir('BE'){
                     sh 'echo " Image Bulid Start"'
