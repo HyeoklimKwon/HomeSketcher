@@ -29,7 +29,7 @@ pipeline {
                     // sh 'chmod -R 777 /usr/local/bin'
                     // sh 'chmod +x /usr/local/bin/docker-compose'
     //              기존 백그라운드에 돌아가던 컨테이너 중지
-                    sh 'docker-compose stop'
+                    sh 'docker compose stop'
                 }
 
 
@@ -76,7 +76,7 @@ pipeline {
                     script {
 
 //                         업데이트된 코드로 빌드 및 실행
-                        sh 'docker-compose up -d'
+                        sh 'docker compose up -d'
                     }
                 }
             }
