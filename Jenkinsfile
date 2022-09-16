@@ -67,13 +67,13 @@ pipeline {
                 
                 sh 'result = $(docker images -f "reference=homesketcher*" -q)'
 
-                sh '
+                sh '''
                     if [[ -n "$result" ]]; then
                     echo "Container image exists"
                     else
                     echo "No such container image"
                     fi
-                '
+                '''
 
 
                 // <none> 태그 -> 태그가 없는 이미지 일괄 삭제
