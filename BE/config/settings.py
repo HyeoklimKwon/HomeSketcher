@@ -96,7 +96,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ssafy',
-        'USER': 'ssafy',
+        'USER': 'root',
         'PASSWORD': MYSQL_SECRET,
         'HOST': 'mysql',
         'PORT': '3306',
