@@ -15,7 +15,7 @@ FROM nginx:stable-alpine as production-stage
 
 RUN rm -rf /etc/nginx/conf.d/default.conf
 
-COPY --from=build-stage /var/lib/jenkins/workspace/homesketcher/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
 RUN rm -rf /usr/share/nginx/html/*
 
