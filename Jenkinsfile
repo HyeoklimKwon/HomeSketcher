@@ -68,9 +68,9 @@ pipeline {
                 // sh 'result = $(docker images -f "reference=homesketcher*" -q)'
 
                 sh '''
-                    if docker container ls --filter "name=homesketcher*" -q
+                    if docker container ls -a --filter "name=homesketcher*" -q
                     then
-                        docker rm $(docker container ls --filter "name=homesketcher*" -q)
+                        docker rm $(docker container ls -a --filter "name=homesketcher*" -q)
                     else
                         echo "No such containers"
                     fi
