@@ -68,9 +68,9 @@ pipeline {
                 // sh 'result = $(docker images -f "reference=homesketcher*" -q)'
 
                 sh '''
-                    if docker container ls -q --filter "status=exited"
+                    if docker container ls --filter "name=homesketcher*" -q
                     then
-                        docker container rm $(docker container ls -q --filter "status=exited")
+                        docker rm $(docker container ls --filter "name=homesketcher*" -q)
                     else
                         echo "No such containers"
                     fi
