@@ -98,7 +98,7 @@ DATABASES = {
         'NAME': 'ssafy',
         'USER': 'ssafy',
         'PASSWORD': MYSQL_SECRET,
-        'HOST': 'j7b304.p.ssafy.io',
+        'HOST': 'mysql',
         'PORT': '3306',
     }
 }
