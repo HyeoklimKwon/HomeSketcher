@@ -131,11 +131,11 @@ pipeline {
 //                 }
 //             }
 
-            post {
-                failure {
-                    sh 'echo "Bulid Docker Fail"'
-                }
-            }
+//             post {
+//                 failure {
+//                     sh 'echo "Bulid Docker Fail"'
+//                 }
+//             }
         }
 
         
