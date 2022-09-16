@@ -1,4 +1,4 @@
-from asyncio.windows_events import NULL
+# from asyncio.windows_events import NULL
 from operator import gt
 from unittest import case
 from furnitures.models import Furniture
