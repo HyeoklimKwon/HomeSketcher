@@ -1,11 +1,10 @@
-# from asyncio.windows_events import NULL
-from tkinter import image_names
 from urllib import response
-from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import permissions, status, generics
+
+from accounts.serializers import UserSerializer
 from .models import Interest, UserStyle, UserColor
 from django.http import JsonResponse
 from auths.models import User
@@ -24,6 +23,7 @@ from .serializers import(
     InterestStyleInputSerializer,
     InterestColorInputSerializer,   
     UserInterestDataSerializer, 
+    UserInterestInputSerializer,
 )
 
 # Create your views here.
@@ -33,13 +33,14 @@ class UserInterestsFormAPIView(APIView):
     @swagger_auto_schema(tags=['취향 폼 데이터 전송.'], responses={200: 'Success'})
     def get(self, request):
         responseList = []
-        
+        sendImgLen = 9
         styles = Interest.objects.all().values('style').distinct()
         
         for style in styles:
-            data = Interest.objects.filter(style=style['style']).order_by("?")[:5]
+            data = Interest.objects.filter(style=style['style']).order_by("?")[:sendImgLen]
             styleList = list(data)
-            if len(styleList) >= 5:
+        
+            if len(styleList) >= sendImgLen:
                 responseList = responseList + styleList[0:5]
             else: 
                 print(style['style'], '은 5개 이하의 데이터를 가진 스타일 입니다')
@@ -57,48 +58,55 @@ class UserInterestResult(APIView):
         currentUser = User.objects.get(id=request.user.id)
         currentUserId = request.user.id
         img_list=request.data
-    
+
         userStyleData = [0 for i in range(len(style))]
         userColorData = [0 for i in range(len(color))]
         
         for img_id in img_list['img_list']:
             interest = Interest.objects.get(id=img_id)
             styleIndex = style.index(interest.style)
-            colorIndex = color.index(interest.color)
+            colorIndex = color.index(interest.sub_color2)
             userStyleData[styleIndex] = userStyleData[styleIndex] + 1
             userColorData[colorIndex] = userColorData[colorIndex] + 1
         
         UserStyle.objects.filter(user_id=currentUserId).delete()
         UserColor.objects.filter(user_id=currentUserId).delete()
-          
-  
+
         for i in range(len(userStyleData)):             
             styleData = {                    
                 'style_name' : style[i],
                 'style_cnt' : userStyleData[i]
             }         
-            styleSerializer = InterestStyleInputSerializer(data=styleData)          
+            styleSerializer = InterestStyleInputSerializer(data=styleData)         
             if styleSerializer.is_valid():
-                styleSerializer.save(user=currentUser)
+                styleSerializer.save(user_id=currentUser)
             else:
                 return returnErrorJson("스타일 저장 실패", "500", status.HTTP_500_INTERNAL_SERVER_ERROR) 
-
+        
         for i in range(len(userColorData)):              
             colorData = {              
                 'color_name' : color[i],
                 'color_cnt' : userColorData[i]
             }              
             colorSerializer = InterestColorInputSerializer(data=colorData)            
-            if colorSerializer.is_valid():                
-                colorSerializer.save(user=currentUser) 
+            if colorSerializer.is_valid():         
+                colorSerializer.save(user_id=currentUser) 
             else:
                 return returnErrorJson("컬러 저장 실패", "500", status.HTTP_500_INTERNAL_SERVER_ERROR) 
-
+        
         response = {
             'style': style[userStyleData.index(max(userStyleData))],
             'color': color[userColorData.index(max(userColorData))],
         }
+        userdata = {
+            'user_style': style[userStyleData.index(max(userStyleData))],
+            'user_color': color[userColorData.index(max(userColorData))],
+        }
+        UserSerializer = UserInterestInputSerializer(request.user, data=userdata)
+        if UserSerializer.is_valid():
+            UserSerializer.save()
         serializer = UserInterestDataSerializer(response)
+      
         return Response(serializer.data, status=status.HTTP_200_OK)
         
     
@@ -114,7 +122,7 @@ class UserInterestResult(APIView):
         for img_id in img_list['img_list']:
             interest = Interest.objects.get(id=img_id)
             styleIndex = style.index(interest.style)
-            colorIndex = color.index(interest.color)
+            colorIndex = color.index(interest.sub_color2)
             userStyleData[styleIndex] = userStyleData[styleIndex] + 1
             userColorData[colorIndex] = userColorData[colorIndex] + 1
         
@@ -148,6 +156,13 @@ class UserInterestResult(APIView):
             'style': style[userStyleData.index(max(userStyleData))],
             'color': color[userColorData.index(max(userColorData))],
         }
+        userdata = {
+            'user_style': style[userStyleData.index(max(userStyleData))],
+            'user_color': color[userColorData.index(max(userColorData))],
+        }
+        UserSerializer = UserInterestInputSerializer(request.user, data=userdata)
+        if UserSerializer.is_valid():
+            UserSerializer.save()
         serializer = UserInterestDataSerializer(response)
         return Response(serializer.data, status=status.HTTP_200_OK)
     

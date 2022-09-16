@@ -1,6 +1,3 @@
-# from asyncio.windows_events import NULL
-from operator import gt
-from unittest import case
 from furnitures.models import Furniture
 from likes.models import UserLike
 from auths.models import User
@@ -74,21 +71,21 @@ class FurnitureLabelAPIView(APIView):
     permission_classes=[IsAuthenticated]
     serializer_class = FurnitureInfoSwaggerSerializer
 
-    @swagger_auto_schema(tags=['가구 label에 따른 데이터 반환(5개씩 페이징)'], responses={200: 'Success'})
-    def get(self,request,label,page_num):
+    @swagger_auto_schema(tags=['가구 label에 따른 데이터 반환(20개만 전송)'], responses={200: 'Success'})
+    def get(self,request,label):
         furnitures = Furniture.objects.all().values()
-        count = furnitures.count() #전체 개수
+        # count = furnitures.count() #전체 개수
         res ={} #응답 데이터
-        res['count'] = count
+        # res['count'] = count
         try:
             #가장 높은 평점을 가진 가구 정보 제공
             if label == "rate":
                 #furniture-rating 별로 내림차순 정렬
-                res['furnitures'] = furnitures.order_by('-furniture_rating')[page_num*5:page_num*5+5]
+                res['furnitures'] = furnitures.order_by('-furniture_rating')[:20]
 
             #가장 리뷰수가 많은 가구 정보 제공
             elif label == "review":
-                res['furnitures'] = furnitures.order_by('furniture_review')[page_num*5:page_num*5+5]
+                res['furnitures'] = furnitures.order_by('furniture_review')[:20]
 
         except:
             return returnErrorJson("DB Error","500",status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -111,11 +108,13 @@ class FurnitureListAPIView(APIView):
         width = request.data.get('width') #가로 길이 -> 최대값으로 이거 이하의 값만 반환
         length = request.data.get('length') #세로 길이 -> 최대값
         height = request.data.get('height') #높이 -> 최대값
+        style = request.data.get('style') #스타일 
         print(page,main,sub,minPrice,maxPrice, width, length, height)
 
         try:
-            furnitures = Furniture.objects.filter(furniture_main = main,furniture_sub = sub).values()
-
+            furnitures = Furniture.objects.filter(furniture_main = main).values()
+            if sub is not None:
+                furnitures = Furniture.objects.filter(furniture_sub = sub).values()
             #각 값들이 요청 body로 들어왔을 때 조건 적용
             if(minPrice is not None):
                 furnitures = furnitures.filter(furniture_price__gte = minPrice)
@@ -127,6 +126,8 @@ class FurnitureListAPIView(APIView):
                 furnitures = furnitures.filter(furniture_length__lte = length)
             if(height is not None):
                 furnitures = furnitures.filter(furniture_height__lte = height)
+            if(style is not None):
+                furnitures = furnitures.filter(furniture_style = style)
             
             furnitures = furnitures[page*20:page*20+20]
 
