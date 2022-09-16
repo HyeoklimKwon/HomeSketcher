@@ -1,6 +1,13 @@
 from pathlib import Path
 from datetime import timedelta
 
+import environ
+
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
+MYSQL_SECRET = env('MYSQL_SECRET')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -81,10 +88,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ssafy',
+        'USER': 'ssafy',
+        'PASSWORD': MYSQL_SECRET,
+        'HOST': 'j7b304.p.ssafy.io',
+        'PORT': '3306',
     }
 }
 
