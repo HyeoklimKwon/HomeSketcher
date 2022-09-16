@@ -119,17 +119,17 @@ pipeline {
             }
         }
 
-        stage('[BE]Bulid & Run') {
-            steps {
-                dir('BE'){
-                    sh 'echo " Image Bulid Start"'
-                    script {
+//         stage('[BE]Bulid & Run') {
+//             steps {
+//                 dir('BE'){
+//                     sh 'echo " Image Bulid Start"'
+//                     script {
 
-//                         업데이트된 코드로 빌드 및 실행
-                        sh 'docker compose up -d'
-                    }
-                }
-            }
+// //                         업데이트된 코드로 빌드 및 실행
+//                         sh 'docker compose up -d'
+//                     }
+//                 }
+//             }
 
             post {
                 failure {
