@@ -13,7 +13,7 @@ RUN npm run build
 
 FROM nginx:stable-alpine as production-stage
 
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ../nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build-stage /var/lib/jenkins/workspace/homesketcher/housesketcher/build /usr/share/nginx/html
 
 EXPOSE 80
