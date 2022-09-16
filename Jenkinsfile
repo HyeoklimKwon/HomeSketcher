@@ -35,27 +35,6 @@ pipeline {
         //     }
         // }
 
-        stage('[BE]Bulid & Run') {
-            steps {
-                dir('BE'){
-                    sh 'echo " Image Bulid Start"'
-                    script {
-
-//                         업데이트된 코드로 빌드 및 실행
-                        sh 'docker compose up -d'
-                        sh 'docker exec -t django python3 manage.py makemigrations'
-                        sh 'docker exec -t django python3 manage.py migrate'
-                    }
-                }
-            }
-
-            post {
-                failure {
-                    sh 'echo "Bulid Docker Fail"'
-                }
-            }
-        }
-
         stage('[BE]Docker stop'){
             steps {
                 dir('BE'){
@@ -77,6 +56,29 @@ pipeline {
                 }
             }
         }
+
+        stage('[BE]Bulid & Run') {
+            steps {
+                dir('BE'){
+                    sh 'echo " Image Bulid Start"'
+                    script {
+
+//                         업데이트된 코드로 빌드 및 실행
+                        sh 'docker compose up -d'
+                        sh 'docker exec -t django python3 manage.py makemigrations'
+                        sh 'docker exec -t django python3 manage.py migrate'
+                    }
+                }
+            }
+
+            post {
+                failure {
+                    sh 'echo "Bulid Docker Fail"'
+                }
+            }
+        }
+
+        
 
         stage('[BE]RM Docker Image'){
             steps {
