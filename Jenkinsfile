@@ -65,9 +65,10 @@ pipeline {
                 //정지된 도커 컨테이너 찾아서 컨테이너 ID로 삭제함
                 // sh 'docker container rm $(docker container ls -q --filter "status=exited")'
                 
-                sh 'result = $(docker images -f "reference=homesketcher*" -q)'
+                // sh 'result = $(docker images -f "reference=homesketcher*" -q)'
 
                 sh '''
+                    result = $(docker images -f "reference=homesketcher*" -q)
                     if [[ -n "$result" ]]; then
                     echo "Container image exists"
                     else
