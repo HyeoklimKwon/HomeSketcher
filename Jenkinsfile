@@ -68,7 +68,6 @@ pipeline {
                 // sh 'result = $(docker images -f "reference=homesketcher*" -q)'
 
                 sh '''
-                    result = $(docker images -f "reference=homesketcher*" -q)
                     if docker images -f "reference=homesketcher*" -q
                     then
                         echo "Container image exists"
