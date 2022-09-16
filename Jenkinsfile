@@ -68,26 +68,32 @@ pipeline {
                 // sh 'result = $(docker images -f "reference=homesketcher*" -q)'
 
                 sh '''
-                    if docker images -f "reference=homesketcher*" -q
+                    if docker container ls -q --filter "status=exited"
                     then
-                        echo "Container image exists"
+                        docker container rm $(docker container ls -q --filter "status=exited")
                     else
-                        echo "No such container image"
+                        echo "No such containers"
                     fi
                 '''
 
+                sh '''
+                    if docker images -f "reference=homesketcher*" -q
+                    then
+                        docker rmi -f $(docker images -f "reference=homesketcher*" -q)
+                    else
+                        echo "No such container images"
+                    fi
+                '''
 
-                // <none> 태그 -> 태그가 없는 이미지 일괄 삭제
-                // -f(--filter) 옵션으로 필터링 걸어서 이미지 검색 뒤 그 결과를 rmi 명령어 파라미터로 넣어줌
-                // dangling 필터는 태그가 없는 경우만 필터링 -> true는 태그가 없는 경우
-                //-q(--quiet) 옵션은 ID만 가져올 때 사용
-                // 앞의 -f 옵션으로 강제 삭제 -> 몇몇개가 실행중 컨테이너에 있어서 안된다는 에러가 발생해서
-                sh 'docker rmi -f $(docker images -f "dangling=true" -q)'
-                // homesketcher로 시작하는 이미지 이름을 검색해서 ID 반환하여 삭제함
-                // homewsketcher 서비스 이미지만 삭제하는 것
-                sh 'docker rmi -f $(docker images -f "reference=homesketcher*" -q)'
-                // sh 'docker rm django'
-                // sh 'docker rmi homesketcher-django'
+                sh '''
+                    if docker images -f "dangling=true" -q
+                    then
+                        docker rmi -f $(docker images -f "dangling=true" -q)
+                    else
+                        echo "No such container images"
+                    fi
+                '''
+
 
             }
             post {
