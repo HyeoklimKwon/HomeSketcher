@@ -68,7 +68,8 @@ pipeline {
                 // sh 'result = $(docker images -f "reference=homesketcher*" -q)'
 
                 sh '''
-                    if[[docker container ls -a --filter "name=homesketcher*" -q]]
+                    result=$( docker container ls -a --filter "name=homesketcher*" -q )
+                    if[[ -n "$result"]]
                     then
                         docker rm $(docker container ls -a --filter "name=homesketcher*" -q)
                     else
@@ -77,7 +78,8 @@ pipeline {
                 '''
 
                 sh '''
-                    if [[docker images -f "reference=homesketcher*" -q]]
+                    result=$( docker images -f "reference=homesketcher*" -q )
+                    if [[ -n "$result"]]
                     then
                         docker rmi -f $(docker images -f "reference=homesketcher*" -q)
                     else
@@ -86,7 +88,8 @@ pipeline {
                 '''
 
                 sh '''
-                    if [[docker images -f "dangling=true" -q]]
+                    result=$(docker images -f "dangling=true" -q)
+                    if [[ -n "$result"]]
                     then
                         docker rmi -f $(docker images -f "dangling=true" -q)
                     else
