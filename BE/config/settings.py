@@ -1,12 +1,12 @@
 from pathlib import Path
 from datetime import timedelta
 
-import environ
+import os
+from dotenv import load_dotenv
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
-env = environ.Env()
-# reading .env file
-environ.Env.read_env()
-MYSQL_SECRET = env('MYSQL_SECRET')
+MYSQL_SECRET = os.environ.get("MYSQL_SECRET")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
