@@ -35,7 +35,7 @@ pipeline {
         //     }
         // }
 
-        stage('[BE]Docker stop'){
+        stage('Docker stop'){
             steps {
                 dir('BE'){
                     sh 'echo "Docker Container Stop"'
@@ -57,7 +57,7 @@ pipeline {
             }
         }
 
-        stage('[BE]RM Docker'){
+        stage('RM Docker'){
             steps {
                 
                 sh 'echo "Remove Docker"'
@@ -103,7 +103,7 @@ pipeline {
             }
         }
 
-        stage('[BE]Bulid & Run') {
+        stage('Bulid & Run') {
             steps {
                 dir('BE'){
                     sh 'echo " Image Bulid Start"'
