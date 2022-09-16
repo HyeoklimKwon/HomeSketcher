@@ -1,6 +1,6 @@
 FROM node:16.15.0 as build-stage
 
-WORKDIR /var/lib/jenkins/workspace/homesketcher/housesketcher
+WORKDIR /app
 
 COPY package*.json ./
 COPY package-lock.json ./
@@ -13,8 +13,13 @@ RUN npm run build
 
 FROM nginx:stable-alpine as production-stage
 
-COPY --from=build-stage /var/lib/jenkins/workspace/homesketcher/nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=build-stage /var/lib/jenkins/workspace/homesketcher/housesketcher/build /usr/share/nginx/html
+RUN rm -rf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+COPY --from=build-stage /var/lib/jenkins/workspace/homesketcher/nginx/default.conf /etc/nginx/conf.d/default.conf
+
+RUN rm -rf /usr/share/nginx/html/*
+
+COPY --from=build-stage /app/build /usr/share/nginx/html
+
+EXPOSE 8002
 CMD ["nginx", "-g","daemon off;"]
