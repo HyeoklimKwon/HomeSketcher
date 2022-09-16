@@ -63,10 +63,6 @@ pipeline {
                 sh 'echo "Remove Docker"'
 
                 //정지된 도커 컨테이너 찾아서 컨테이너 ID로 삭제함
-                // sh 'docker container rm $(docker container ls -q --filter "status=exited")'
-                
-                // sh 'result = $(docker images -f "reference=homesketcher*" -q)'
-
                 sh '''
                     result=$( docker container ls -a --filter "name=homesketcher*" -q )
                     if [ -n "$result" ]
@@ -77,6 +73,7 @@ pipeline {
                     fi
                 '''
 
+                // homesketcher로 시작하는 이미지 찾아서 삭제함
                 sh '''
                     result=$( docker images -f "reference=homesketcher*" -q )
                     if [ -n "$result" ]
@@ -87,6 +84,7 @@ pipeline {
                     fi
                 '''
 
+                // 안쓰는이미지 -> <none> 태그 이미지 찾아서 삭제함
                 sh '''
                     result=$(docker images -f "dangling=true" -q)
                     if [ -n "$result" ]
@@ -96,21 +94,7 @@ pipeline {
                         echo "No such container images"
                     fi
                 '''
-// result=$(docker images -f "dangling=true" -q)
-//                     if [ -z $result ]
-//                     then
-//                         echo "asdf"
-//                     else
-//                         echo "No such container images"
-//                     fi
 
-// result=$( docker images -f "reference=homesketcher*" -q )
-//                     if [ -n "$result" ]
-//                     then
-//                         echo "asdf"
-//                     else
-//                         echo "No such container images"
-//                     fi
             }
             post {
                  failure {
@@ -119,24 +103,24 @@ pipeline {
             }
         }
 
-//         stage('[BE]Bulid & Run') {
-//             steps {
-//                 dir('BE'){
-//                     sh 'echo " Image Bulid Start"'
-//                     script {
+        stage('[BE]Bulid & Run') {
+            steps {
+                dir('BE'){
+                    sh 'echo " Image Bulid Start"'
+                    script {
 
-// //                         업데이트된 코드로 빌드 및 실행
-//                         sh 'docker compose up -d'
-//                     }
-//                 }
-//             }
+//                         업데이트된 코드로 빌드 및 실행
+                        sh 'docker compose up -d'
+                    }
+                }
+            }
 
-//             post {
-//                 failure {
-//                     sh 'echo "Bulid Docker Fail"'
-//                 }
-//             }
-        // }
+            post {
+                failure {
+                    sh 'echo "Bulid Docker Fail"'
+                }
+            }
+        }
 
         
 
