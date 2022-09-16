@@ -136,7 +136,7 @@ pipeline {
 //                     sh 'echo "Bulid Docker Fail"'
 //                 }
 //             }
-        }
+        // }
 
         
 
