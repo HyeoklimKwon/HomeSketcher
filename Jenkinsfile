@@ -65,8 +65,8 @@ pipeline {
                 //정지된 도커 컨테이너 찾아서 컨테이너 ID로 삭제함
                 sh 'docker container rm $(docker container ls -q --filter "status=exited")'
 
-                if('$(docker images -f "dangling=true"-q)' == ""){
-                    sh 'Ther are no images'
+                if(dockerImageExists(homesketcher-django)){
+                    echo 'Ther are no images'
                 }
 
                 // <none> 태그 -> 태그가 없는 이미지 일괄 삭제
