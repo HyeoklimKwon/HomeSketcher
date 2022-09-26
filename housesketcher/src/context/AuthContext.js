@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
   const history = useHistory();
 
   let loginUser = async (e) => {
-    e.preventDefault();
+    e.preventDefault()    
     console.log('Form submitted');
     let response = await fetch(BASE_URL + 'auths/login/', {
       method: 'POST',
