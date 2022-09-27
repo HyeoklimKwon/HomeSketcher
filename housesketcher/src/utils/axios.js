@@ -1,8 +1,6 @@
 import Axios from 'axios' 
 import jwt_decode from 'jwt-decode'
 import dayjs from 'dayjs'
-import { useContext } from 'react';
-import AuthContext from '../context/AuthContext';
 
 const baseURL = 'https://j7b304.p.ssafy.io/api/v1/';
 
@@ -44,8 +42,9 @@ axios.interceptors.request.use(async req => {
     }
     // 실패시 refresh 토큰이 만료되었다는 의미기 때문에 자동으로 logout을 해주어야한다. AuthContext에 잇는 logout 그대로 구현해준다. 
     catch (error) {
-        let {logoutUser} = useContext(AuthContext)
-        logoutUser()
+        localStorage.removeItem('userInfo');
+        localStorage.removeItem('authTokens');
+        window.location.replace("/")
     }    
 })
 
