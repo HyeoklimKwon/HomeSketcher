@@ -32,6 +32,7 @@ function Liked(props) {
   // 3D페이지에서 가구 모델 카드를 클릭했을시, 해당 가구 id로 보내고 obj을 받은 다음 리스트에 추가
   const onClickThreeFurn = async (glb_url) => {
     props.addObj(glb_url)
+    console.log(glb_url)
   }
 
 

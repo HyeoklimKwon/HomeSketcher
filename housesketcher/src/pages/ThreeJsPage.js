@@ -5,8 +5,10 @@ import { a, useSpring } from '@react-spring/three';
 import CameraSetup from '../components/ThreeJsPage/CameraSetup';
 import FloorPlan from '../components/ThreeJsPage/FloorPlan';
 import FloorClip from '../components/ThreeJsPage/FloorClip';
+import Ground from '../components/ThreeJsPage/Ground';
 
 import  Model  from '../components/ThreeJsPage/Model';
+import  ModelT  from '../components/ThreeJsPage/Modelt';
 import { DISTANCE_BETWEEN_FLOORS } from '../components/ThreeJsPage/constants';
 import classes from './ThreeJsPage.module.css';
 
@@ -96,6 +98,7 @@ export default function ThreeJsPage() {
   const HHH = useRef();
 
   const changeXHandler = () => {
+    console.log(objList)
     if (XXX.current.value !== undefined) {
       setX(XXX.current.value);
     } else {
@@ -158,9 +161,13 @@ export default function ThreeJsPage() {
   const { mode } = useControls({ mode: { value: 'translate', options: ['translate', 'rotate', 'scale'] } })
   /////
   
-  console.log('targettargettarget', target)
+  // console.log('targettargettarget', target)
 
-
+  function showlist(objList,obj){
+    console.log('objList',objList)
+    console.log('---------------')
+    console.log('obj',obj)
+  }
   return (
     <div className={classes.three_body}>
 
@@ -180,11 +187,16 @@ export default function ThreeJsPage() {
           invalidateframeloop="false">
 
           {/* 가구 3D 모델 */}
+          {/* {objList.map((obj) => (
+            <Model onPointerMissed={() => {setTarget(null);}} objUrl = {obj} setTarget = {setTarget} />
+          ))
+          } */}
           {objList.map((obj) => (
-            <Model onPointerMissed={() => setTarget(null)} objUrl = {obj} setTarget = {setTarget} />
+            <ModelT onPointerMissed={() => {setTarget(null);}} objUrl = {obj} setTarget = {setTarget} />
           ))
           }
-
+          
+          <Ground/>
           {/* <CameraSetup /> */}          
           <ambientLight intensity={0.5} color="#eef" />
           <pointLight position={[20, 10, -10]} decay={1} castShadow={true} />
