@@ -1,24 +1,17 @@
-import React, {useState, useReducer, useMemo, useRef, Suspense } from 'react';
-import { Canvas, useThree, useFrame  } from "react-three-fiber";
+import React, {useState, useMemo, useRef } from 'react';
+import { Canvas, useThree  } from "react-three-fiber";
 import { a, useSpring } from '@react-spring/three';
-// import data from '../components/ThreeJsPage/floplan-data.json';
-import CameraSetup from '../components/ThreeJsPage/CameraSetup';
 import FloorPlan from '../components/ThreeJsPage/FloorPlan';
-import FloorClip from '../components/ThreeJsPage/FloorClip';
 import Ground from '../components/ThreeJsPage/Ground';
 
-import  Model  from '../components/ThreeJsPage/Model';
 import  ModelT  from '../components/ThreeJsPage/Modelt';
 import { DISTANCE_BETWEEN_FLOORS } from '../components/ThreeJsPage/constants';
 import classes from './ThreeJsPage.module.css';
 
 ///////////////////////
-import { useLoader } from "@react-three/fiber";
 import create from 'zustand'
-import { Environment, OrbitControls, TransformControls, Html, useProgress } from '@react-three/drei'
+import {  OrbitControls, TransformControls } from '@react-three/drei'
 import { useControls } from 'leva'
-import { useGLTF, useCursor} from '@react-three/drei';
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import Liked from '../components/ThreeJsPage/Liked';
 import * as THREE from 'three';
 //////////////////////
@@ -42,7 +35,6 @@ export default function ThreeJsPage() {
   let [showCorners, setShowCorners] = useState(false);
   let [orthoCamera, setOrthoCamera] = useState(false);
   let [objList, setObjList] = useState([])
-  let [objVector, setVector] = useState([])
   let [objBox, setBox] =useState({ });
 
 
@@ -125,14 +117,11 @@ export default function ThreeJsPage() {
   const { mode } = useControls({ mode: { value: 'translate', options: ['translate', 'rotate', 'scale'] } })
   /////
   
-  // console.log('targettargettarget', target)
-  function Ttttt(props){
-    console.log('ttttttt')
-    console.log(props)
+  // Object Change Event Function
+  function ObjectChangeHandler(props){
     const data = {}
     const box = new THREE.Box3().setFromObject(props);
     
-    const boxSize = box.getSize(new THREE.Vector3()).length();
 
     data[props.uuid] = box
     //  box 좌표 저장 
@@ -141,24 +130,10 @@ export default function ThreeJsPage() {
       [props.uuid]: box,
     }));
 
-    console.log("boxSize")
-    console.log(objBox)
-    console.log("boxSize")
-
-    setVector((objVector) => {
-      return [...objVector, data]
-    }           
-   )
-
-    console.log('props.position')
-    console.log(props.position)
-    console.log('props.position')
     const targetV = objBox[props.uuid]
     const targetMinV = targetV.min
     const targetMaxV = targetV.max
     for (const key in objBox) {
-      console.log('forforfor')
-      console.log(key) // key == uuid
 
       
       let check1 = false
@@ -189,50 +164,34 @@ export default function ThreeJsPage() {
       if (((objecttMaxV.y > targetMinV.y) &&(objecttMinV.y < targetMaxV.y))  || ((objecttMinV.y < targetMaxV.y) &&(objecttMaxV.y > targetMinV.y))){
         check5 =true;
       }
-      console.log('----------------')
-      console.log(-5.8 < targetMinV.x)
-      console.log(-4 < targetMinV.z)
-      console.log('----------------')
-      console.log(-5.8+X)
-      console.log(-5.8+ parseInt(X) )
-      console.log(typeof parseInt(X) )
-      console.log(typeof parseInt(Y) )
-      console.log(-4+Y)
-      console.log(-4+parseInt(Y))
-      console.log('----------------')
-      console.log(-5.8+X > targetMaxV.x)
-      console.log(-4+Y > targetMaxV.z)
-      console.log('----------------')
+
       if ((-5.8 < targetMinV.x) &&(-4 < targetMinV.z)  && (-5.8+X > targetMaxV.x) &&(-4+Y > targetMaxV.z)){
         check6 =true;
       }
       
-      // console.log('----------------')
-      // console.log(check1)
-      // console.log(check2)
-      // console.log(check3)
-      // console.log(check4)
-      // console.log(check5)
-      // console.log(check6)
-      // console.log(objBox[key])
-      // console.log('----------------')
 
       if (check6){
         console.log('안에있지롱')
       }
       else{
+        // alert("ㅋㅋㄹㅃㅃ 밖에 있지롱")
+        // console.log(target.position.x)
+        // console.log(target.position.y)
+        // alert(target.position.x + " " + target.position.z)
+        target.position.x = 0
+        target.position.y = 0
+        console.log(targetMaxV.z-targetMinV.z)
+        target.position.z = -3.37502134416813 - (targetMaxV.z-targetMinV.z)
         console.log("난밖에있어 ")
-        console.log(targetMinV)
-        console.log('----------------')
-        console.log(targetMaxV)
-        console.log('----------------')
-        console.log(X,Y)
       }
 
-      if ( (check1 || check2 || check3 || check4) && (check5)  &&(props.uuid !==key) ){
+      // check1~check4 -> 사방위 충돌 체크 true이면 충돌 난 것
+      // check5 -> 위 아래 충돌 체크 true이면 충돌 난 것(같은 높이)
+      // check6 -> 방 내부에 있는지 체크. 얘는 false일 때 밖에 있음
+      if ( (((check1 || check2 || check3 || check4) && (check5)) || (!check6) ) &&(props.uuid !==key) ){
         console.log('박스안')
         console.log(key)
-        window.alert('충돌충돌충돌'+key,)
+        // window.alert('충돌충돌충돌'+key,)
         console.log('박스안')
       } 
       else{
@@ -240,16 +199,30 @@ export default function ThreeJsPage() {
         console.log(key)
         console.log('박스밖')
       }
+
+      check1=check2=check3=check4=check5=check6=false
     }
 
   }
-  
-  function clickobj(objList,obj){
-    // console.log('objList',objList)
-    // console.log('---------------')
-    // console.log('obj',obj)
-  }
 
+  
+
+  // console.log('targettargettarget', target)
+  function ObjectClickHandler(props){
+    console.log('ObjectClickHandlertt')
+    console.log(props)
+    const data = {}
+    const box = new THREE.Box3().setFromObject(props);
+    
+
+    data[props.uuid] = box
+    //  box 좌표 저장 
+    setBox(prevState => ({
+      ...prevState,
+      [props.uuid]: box,
+    }));
+
+  }
   return (
     <div className={classes.three_body}>
 
@@ -275,7 +248,8 @@ export default function ThreeJsPage() {
           } */}
 
           {objList.map((obj) => (
-            <ModelT onPointerMissed={() => {setTarget(null); clickobj(objList,obj);}} objUrl = {obj} addVector= {Ttttt} setTarget = {setTarget} />
+            // <ModelT onPointerMissed={() => {setTarget(null); clickobj(objList,obj);}} objUrl = {obj} addVector= {ObjectClickHandler} setTarget = {setTarget} />
+            <ModelT onPointerMissed={() => {setTarget(null); }} objUrl = {obj}  setTarget = {setTarget} />
           ))
           }
           
@@ -293,9 +267,7 @@ export default function ThreeJsPage() {
               />
           </a.group>
 
-          {/* <FloorClip currentFloor={currentFloor} data={newItem} /> */}
-          {target && <TransformControls object={target} mode={mode} />}
-          {/* {target && <Ttttt target={target}/> } */}
+          {target && <TransformControls onChange={(e)=>{ObjectChangeHandler(target)}} object={target} mode={mode} />}
           <OrbitControls makeDefault />
           <DevTools />
         </Canvas>
