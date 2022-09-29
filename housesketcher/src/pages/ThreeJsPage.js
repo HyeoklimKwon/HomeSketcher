@@ -20,7 +20,7 @@ import { useControls } from 'leva'
 import { useGLTF, useCursor} from '@react-three/drei';
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import Liked from '../components/ThreeJsPage/Liked';
-
+import * as THREE from 'three';
 //////////////////////
 
 const DevTools = () => {
@@ -32,47 +32,9 @@ const DevTools = () => {
   return null;
 };
 
-// 1. Glb 파일 로딩 
-// function Loader() {
-//   const { active, progress, errors, item, loaded, total } = useProgress();
-//   return <Html center>{progress} % loaded</Html>;
-// }
 
-// const Model = () => {
-//   const gltf = useLoader(
-//     GLTFLoader,
-//     'https://firebasestorage.googleapis.com/v0/b/homesketcher-37070.appspot.com/o/glb%2Fdesks.glb?alt=media&token=eyJhbGciOiJSUzI1NiIsImtpZCI6IjIxZTZjMGM2YjRlMzA5NTI0N2MwNjgwMDAwZTFiNDMxODIzODZkNTAiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoia21TZWNvbmQiLCJwaWN0dXJlIjoiaHR0cDovL3d3dy5leGFtcGxlLmNvbS8xMjM0NTY3OC9waG90by5wbmciLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vaG9tZXNrZXRjaGVyLTM3MDcwIiwiYXVkIjoiaG9tZXNrZXRjaGVyLTM3MDcwIiwiYXV0aF90aW1lIjoxNjY0MjQ2Njk5LCJ1c2VyX2lkIjoiZzVnNzJuU1ZmWWd0ZVJBQ3UzWHNTTVBDTzVGMyIsInN1YiI6Imc1ZzcyblNWZllndGVSQUN1M1hzU01QQ081RjMiLCJpYXQiOjE2NjQyNDY2OTksImV4cCI6MTY2NDI1MDI5OSwiZW1haWwiOiJqbzk1MTEyOEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInBob25lX251bWJlciI6Iis4MjEwNjQ4NTU3OTQiLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7InBob25lIjpbIis4MjEwNjQ4NTU3OTQiXSwiZW1haWwiOlsiam85NTExMjhAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.jbsBNl9xzkPZTEuO3NID7cbC4QINFcka5o73QyUP4_rt-9V4iRUO19eVp1JVSjs-16xToS-9xZgVQ8--j9-Cv_8ihku2veGrqNoXSX2U_Z-GrPg0DcjrR0MY8oof6-ZofCjt-Dqhe1twVbD1ijmTXl28ISs8eVG8LoyVbppkvFJq5TmV1Mh5wiMz6Y4LgPSW_CcJY5RwDTapA5oxkP_psALDr1Iopz_ADZNymW_dOPbGkbOqJHqk0PgEFz6gzcvJcpDJwIZupvia71q6cdmb_tVuy2Tu7_0Uk88r_2YHnNrC3bBGxhotWCoVFF11SF_UBGztJRBI_JBYRZqL-PFuvA'
-//   );
-//   return <primitive object={gltf.scene} scale={0.4} />;
-// };
 const useStore = create((set) => ({ target: null, setTarget: (target) => set({ target }) }))
 
-// 가구 3D 모델 생성?
-// function ModelT(props) {
-
-//   const gltf = useLoader(
-//     GLTFLoader,
-//     props.objUrl
-//     );;
-//   const setTarget = useStore((state) => state.setTarget)
-//   const [hovered, setHovered] = useState(false)
-
-//   function clcikHandler(data){
-//     console.log('------------')
-//     console.log('data',data)
-//     setTarget(data)
-//     console.log('------------')
-//     console.log('setTargetsetTargetsetTarget',data)
-//     console.log('------------')
-//     // console.log('target',target)
-//   }
-//   useCursor(hovered)
-//   return (
-//   // <mesh {...props} onClick={(e) => {setTarget(e.object); clcikHandler(e.object)}} onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)}>
-//   //     </mesh>
-//   <primitive  object={gltf.scene}  {...props} onClick={(e) => {setTarget(e.object); clcikHandler(e.object)}} onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)}/>
-//   );
-// }
 
 export default function ThreeJsPage() {
   // let [currentFloor, setCurrentFloor] = useState(0);
@@ -80,6 +42,8 @@ export default function ThreeJsPage() {
   let [showCorners, setShowCorners] = useState(false);
   let [orthoCamera, setOrthoCamera] = useState(false);
   let [objList, setObjList] = useState([])
+  let [objVector, setVector] = useState([])
+  let [objBox, setBox] =useState({ });
 
 
   // 가구 obj 더해주기 
@@ -100,21 +64,21 @@ export default function ThreeJsPage() {
   const changeXHandler = () => {
     console.log(objList)
     if (XXX.current.value !== undefined) {
-      setX(XXX.current.value);
+      setX(parseInt(XXX.current.value));
     } else {
       setX(5);
     }
   };
   const changeYHandler = () => {
     if (YYY.current.value !== undefined) {
-      setY(YYY.current.value);
+      setY(parseInt(YYY.current.value));
     } else {
       setY(5);
     }
   };
   const changeHHandler = () => {
     if (HHH.current.value !== undefined) {
-      setH(HHH.current.value);
+      setH(parseInt(HHH.current.value));
     } else {
       setH(1);
     }
@@ -136,16 +100,16 @@ export default function ThreeJsPage() {
               { x: 0, y: Y },
             ],
           },
-          {
-            "id": "ROOM3",
-            "height": H,
-            "coords": [
-              { "x": 0, "y": 0 },
-              { "x": X/3, "y": 0 },
-              { "x": X/3, "y": Y/5 },
-              { "x": 0, "y": Y/5 }
-            ]
-          }
+          // {
+          //   "id": "ROOM3",
+          //   "height": H,
+          //   "coords": [
+          //     { "x": 0, "y": 0 },
+          //     { "x": X/3, "y": 0 },
+          //     { "x": X/3, "y": Y/5 },
+          //     { "x": 0, "y": Y/5 }
+          //   ]
+          // }
         ],
       },
     ],
@@ -162,12 +126,130 @@ export default function ThreeJsPage() {
   /////
   
   // console.log('targettargettarget', target)
+  function Ttttt(props){
+    console.log('ttttttt')
+    console.log(props)
+    const data = {}
+    const box = new THREE.Box3().setFromObject(props);
+    
+    const boxSize = box.getSize(new THREE.Vector3()).length();
 
-  function showlist(objList,obj){
-    console.log('objList',objList)
-    console.log('---------------')
-    console.log('obj',obj)
+    data[props.uuid] = box
+    //  box 좌표 저장 
+    setBox(prevState => ({
+      ...prevState,
+      [props.uuid]: box,
+    }));
+
+    console.log("boxSize")
+    console.log(objBox)
+    console.log("boxSize")
+
+    setVector((objVector) => {
+      return [...objVector, data]
+    }           
+   )
+
+    console.log('props.position')
+    console.log(props.position)
+    console.log('props.position')
+    const targetV = objBox[props.uuid]
+    const targetMinV = targetV.min
+    const targetMaxV = targetV.max
+    for (const key in objBox) {
+      console.log('forforfor')
+      console.log(key) // key == uuid
+
+      
+      let check1 = false
+      let check2 = false
+      let check3 = false
+      let check4 = false
+      let check5 = false
+      let check6 = false
+      let objecttMinV = objBox[key].min
+      let objecttMaxV = objBox[key].max
+
+
+      if ((objecttMinV.x < targetMaxV.x) &&(objecttMinV.z < targetMaxV.z) &&(objecttMaxV.x > targetMinV.x) &&(objecttMaxV.z > targetMinV.z)){
+        check1 = true;
+      }
+      else if  ((objecttMinV.x < targetMaxV.x) &&(objecttMaxV.z > targetMinV.z) &&(objecttMaxV.x > targetMinV.x) &&(objecttMinV.z < targetMaxV.z)){
+        check2 = true;
+      }
+      else if  ((objecttMaxV.x > targetMinV.x) &&(objecttMinV.z < targetMaxV.z) &&(objecttMinV.x < targetMaxV.x) &&(objecttMaxV.z > targetMinV.z)){
+        check3 = true;
+      }
+      else if  ((objecttMaxV.x > targetMinV.x) &&(objecttMaxV.z > targetMinV.z) &&(objecttMinV.x < targetMaxV.x) &&(objecttMinV.z < targetMaxV.z)){
+        check4 = true;
+      }
+      else{
+
+      }
+      if (((objecttMaxV.y > targetMinV.y) &&(objecttMinV.y < targetMaxV.y))  || ((objecttMinV.y < targetMaxV.y) &&(objecttMaxV.y > targetMinV.y))){
+        check5 =true;
+      }
+      console.log('----------------')
+      console.log(-5.8 < targetMinV.x)
+      console.log(-4 < targetMinV.z)
+      console.log('----------------')
+      console.log(-5.8+X)
+      console.log(-5.8+ parseInt(X) )
+      console.log(typeof parseInt(X) )
+      console.log(typeof parseInt(Y) )
+      console.log(-4+Y)
+      console.log(-4+parseInt(Y))
+      console.log('----------------')
+      console.log(-5.8+X > targetMaxV.x)
+      console.log(-4+Y > targetMaxV.z)
+      console.log('----------------')
+      if ((-5.8 < targetMinV.x) &&(-4 < targetMinV.z)  && (-5.8+X > targetMaxV.x) &&(-4+Y > targetMaxV.z)){
+        check6 =true;
+      }
+      
+      // console.log('----------------')
+      // console.log(check1)
+      // console.log(check2)
+      // console.log(check3)
+      // console.log(check4)
+      // console.log(check5)
+      // console.log(check6)
+      // console.log(objBox[key])
+      // console.log('----------------')
+
+      if (check6){
+        console.log('안에있지롱')
+      }
+      else{
+        console.log("난밖에있어 ")
+        console.log(targetMinV)
+        console.log('----------------')
+        console.log(targetMaxV)
+        console.log('----------------')
+        console.log(X,Y)
+      }
+
+      if ( (check1 || check2 || check3 || check4) && (check5)  &&(props.uuid !==key) ){
+        console.log('박스안')
+        console.log(key)
+        window.alert('충돌충돌충돌'+key,)
+        console.log('박스안')
+      } 
+      else{
+        console.log('박스밖')
+        console.log(key)
+        console.log('박스밖')
+      }
+    }
+
   }
+  
+  function clickobj(objList,obj){
+    // console.log('objList',objList)
+    // console.log('---------------')
+    // console.log('obj',obj)
+  }
+
   return (
     <div className={classes.three_body}>
 
@@ -191,8 +273,9 @@ export default function ThreeJsPage() {
             <Model onPointerMissed={() => {setTarget(null);}} objUrl = {obj} setTarget = {setTarget} />
           ))
           } */}
+
           {objList.map((obj) => (
-            <ModelT onPointerMissed={() => {setTarget(null);}} objUrl = {obj} setTarget = {setTarget} />
+            <ModelT onPointerMissed={() => {setTarget(null); clickobj(objList,obj);}} objUrl = {obj} addVector= {Ttttt} setTarget = {setTarget} />
           ))
           }
           
@@ -210,8 +293,9 @@ export default function ThreeJsPage() {
               />
           </a.group>
 
-          <FloorClip currentFloor={currentFloor} data={newItem} />
+          {/* <FloorClip currentFloor={currentFloor} data={newItem} /> */}
           {target && <TransformControls object={target} mode={mode} />}
+          {/* {target && <Ttttt target={target}/> } */}
           <OrbitControls makeDefault />
           <DevTools />
         </Canvas>
