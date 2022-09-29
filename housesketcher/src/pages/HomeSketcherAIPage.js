@@ -4,6 +4,7 @@ import axios from '../utils/axios';
 import classes from './HomeSketcherAIPage.module.css';
 import DataChart from '../components/HomeSketcherAIPage/DataChart';
 import AIStyle from '../components/HomeSketcherAIPage/AIStyle';
+import StyleRaderChart from '../components/HomeSketcherAIPage/StyleRaderChart';
 
 function HomeSketcherAIPage() {
   const [responseData, setResponseData] = useState(null);
@@ -22,7 +23,7 @@ function HomeSketcherAIPage() {
         console.log(err);
       });
   };
-  console.log('슈ㅣ바', responseData);
+  console.log('page', responseData);
   useEffect(() => {
     responseDataHandler();
   }, []);
@@ -43,6 +44,14 @@ function HomeSketcherAIPage() {
         <AIStyle />
         {responseData ? (
           <DataChart responseData={responseData.ageStyle} />
+        ) : (
+          <div>loading</div>
+        )}
+        {responseData ? (
+          <StyleRaderChart
+            maleData={responseData.maleStyle}
+            femaleData={responseData.femaleStyle}
+          />
         ) : (
           <div>loading</div>
         )}
