@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import BASE_URL from './AIBaseUrl';
 
 const textContext = {
@@ -17,11 +17,19 @@ const textContext = {
     'he best Mediterranean-style interior design focuses on indoor-outdoor living.',
     'Use materials such as wood, rattan, ceramics, terracotta, wrought iron, linen, and cotton',
   ],
-  antique: [],
+  antique: [
+    'Antiques offer style, history, and practicality to any room.',
+    'Antiques evoke amazement and great interest in people, with questions',
+    'like who made the furnishings, what great craftsmanship went into its creation,',
+    'and what historical events have these pieces been through.',
+    'Just their sheer beauty is enough to decorate',
+    'with different styles in allowing the past to come to present day life.',
+  ],
 };
 
 function AIStyle() {
   const file = null;
+  const [style, setStyle] = useState(null);
   const imageUpload = async (e) => {
     let file = e.target.files[0];
     axios({
@@ -35,6 +43,7 @@ function AIStyle() {
     })
       .then((response) => {
         console.log(response);
+        console.log(response.data.predict[0]);
       })
       .catch((err) => console.log(err));
   };
@@ -50,8 +59,8 @@ function AIStyle() {
   return (
     <div>
       <div>서비스 설명</div>
-      <div>결과와 스타일 설명</div>
-      <img src={file} alt="" />
+      <div>결과 </div>
+      <img src={file ? file : null} alt="" />
 
       <input
         type="file"
