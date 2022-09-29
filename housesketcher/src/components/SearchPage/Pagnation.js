@@ -26,7 +26,6 @@ function Pagnation() {
     pages = pages.filter((element) => element < items.length);
 
     searchCtx.changePage(pageNum);
-    searchCtx.getFurnitureList();
   }, [pageNum, searchCtx.page]);
 
   return (
@@ -40,16 +39,16 @@ function Pagnation() {
           &lt;&lt;
         </p>
       </div>
-      {pages.map((pageNum) => {
+      {pages.map((page) => {
         return (
-          <div className={classes.page_num} key={pageNum}>
-            <p
-              onClick={() => {
-                setPageNum(pageNum);
-              }}
-            >
-              {pageNum + 1}
-            </p>
+          <div
+            className={page === pageNum ? classes.now_page : classes.page_num}
+            key={page}
+            onClick={() => {
+              setPageNum(page);
+            }}
+          >
+            <p>{page + 1}</p>
           </div>
         );
       })}

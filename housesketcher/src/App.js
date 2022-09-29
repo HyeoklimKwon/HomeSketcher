@@ -1,16 +1,20 @@
-import { Switch, BrowserRouter as Router } from 'react-router-dom';
+import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import NonLoginMainPage from './pages/NonLoginMainPage';
 import SearchPage from './pages/SearchPage';
 import LoginPage from './pages/LoginPage';
-import AccountRegisterPage from './pages/AccountRegisterPage'
-import { AuthProvider } from './context/AuthContext'
-import LoginMainPage from './pages/LoginMainPage'
-import PrivateRoute from './utils/PrivateRoute'
-import NonPrivateRoute from './utils/NonPrivateRoute'
-import TasteAnalysisPage from './pages/TasteAnalysis'
+import AccountRegisterPage from './pages/AccountRegisterPage';
+import { AuthProvider } from './context/AuthContext';
+import LoginMainPage from './pages/LoginMainPage';
+import PrivateRoute from './utils/PrivateRoute';
+import NonPrivateRoute from './utils/NonPrivateRoute';
+import TasteAnalysisPage from './pages/TasteAnalysis';
+import ThreeJsPage from './pages/ThreeJsPage';
+import TTTest from './pages/TTTest';
+import NewMind from './pages/NewMind';
 import ScrollToTop from './hooks/ScrollToTop';
+import HomeSketcherAIPage from './pages/HomeSketcherAIPage';
 
 function App() {
   return (
@@ -25,15 +29,18 @@ function App() {
           */}
           <ScrollToTop>
             <Switch className="App">
-              <PrivateRoute component={LoginMainPage} exact path= "/loginmain"/>             
-              <NonPrivateRoute component={NonLoginMainPage} exact path="/"/>              
-              <PrivateRoute component={SearchPage} exact path="/searchpage"/>         
-              <NonPrivateRoute component={LoginPage} exact path = "/login"/>     
-              <NonPrivateRoute component={AccountRegisterPage} exact path="/register"/>
-              <PrivateRoute component= {TasteAnalysisPage} exact path = '/tasteanalysis'/>                        
+              <NonPrivateRoute component={NonLoginMainPage} exact path="/" />
+              <PrivateRoute component={LoginMainPage} exact path="/loginmain" />
+              <PrivateRoute component={SearchPage} exact path="/searchpage" />
+              <NonPrivateRoute component={LoginPage} exact path="/login" />
+              <NonPrivateRoute component={AccountRegisterPage} exact path="/register" />
+              <PrivateRoute component={TasteAnalysisPage} exact path="/tasteanalysis" />
+              <Route component={ThreeJsPage} exact path="/modeling" />
+              <Route component={TTTest} exact path="/asd" />
+              <Route component={NewMind} exact path="/new" />
+              <Route component={HomeSketcherAIPage} exaxt path="/ai" />
             </Switch>
           </ScrollToTop>
-
         </AuthProvider>
       </Router>
     </div>
