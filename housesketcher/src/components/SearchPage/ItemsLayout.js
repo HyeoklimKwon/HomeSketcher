@@ -5,11 +5,11 @@ import classes from './itemsLayout.module.css';
 import LikeFurniture from '../Like/LikeFurniture';
 
 function ItemsLayout() {
-  const filterCtx = useContext(SearchContext);
-  const items = filterCtx.furnitureList;
+  const searchCtx = useContext(SearchContext);
+  const items = searchCtx.furnitureList;
   useEffect(() => {
-    filterCtx.getFurnitureList();
-  }, [filterCtx.sub]);
+    searchCtx.getFurnitureList();
+  }, [searchCtx.sub, searchCtx.byLike, searchCtx.byPrice, searchCtx.page]);
   if (!items.length) {
     return (
       <div className={classes.display_flex}>
@@ -22,7 +22,7 @@ function ItemsLayout() {
       <div className={classes.display_flex}>
         {items.map((item) => {
           return (
-            <div className={classes.item_container}>
+            <div  key={item.id} className={classes.item_container}>
               <LikeFurniture
                 key={item.id}
                 furniture={item}
