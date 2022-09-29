@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './MainCard.module.css'
 import image1 from '../../assets/2.jpg'
+import image2 from '../../assets/taste.gif'
 
 function MainCarousel(props) {
   return (
@@ -33,7 +34,7 @@ function MainCarousel(props) {
             <br />
             <br />
           </div>
-          <img className={styles.second_img} src="https://cdn.electimes.com/news/photo/202201/227731_144732.jpg" alt="" />
+          <img className={styles.second_img} src={image2} alt="" />
         </div>
         <hr />
         <div className={styles.main_card}>
