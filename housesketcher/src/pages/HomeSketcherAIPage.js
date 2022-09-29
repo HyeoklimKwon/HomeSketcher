@@ -2,13 +2,21 @@ import Navbar from '../components/Navbar/Navbar';
 import { useEffect, useState } from 'react';
 import axios from '../utils/axios';
 import classes from './HomeSketcherAIPage.module.css';
-import DataChart from '../components/HomeSketcherAIPage/DataChart';
+import StyleBarChart from '../components/HomeSketcherAIPage/StyleBarChart';
 import AIStyle from '../components/HomeSketcherAIPage/AIStyle';
 import StyleRaderChart from '../components/HomeSketcherAIPage/StyleRaderChart';
+import LoadingText from '../components/Common/LodingText';
 
 function HomeSketcherAIPage() {
   const [responseData, setResponseData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [selected, setSelected] = useState('StyleBarChart');
+  const chartList = {
+    StyleBarChart: 0,
+    StyleRaderChart: 0,
+    ColorBarChart: 0,
+    ColorRaderChart: 0,
+  };
   const responseDataHandler = async () => {
     setIsLoading(true);
     console.log('실행');
@@ -36,25 +44,20 @@ function HomeSketcherAIPage() {
   // ==> 성공메세지 알람
 
   // 3. 실시간 인기 스타일 차트 보여주기
+  if (!responseData) {
+    return <LoadingText />;
+  }
 
   return (
     <div>
       <Navbar />
       <div className={classes.justify_center}>
         <AIStyle />
-        {responseData ? (
-          <DataChart responseData={responseData.ageStyle} />
-        ) : (
-          <div>loading</div>
-        )}
-        {responseData ? (
-          <StyleRaderChart
-            maleData={responseData.maleStyle}
-            femaleData={responseData.femaleStyle}
-          />
-        ) : (
-          <div>loading</div>
-        )}
+        <StyleBarChart responseData={responseData.ageStyle} />
+        <StyleRaderChart
+          maleData={responseData.maleStyle}
+          femaleData={responseData.femaleStyle}
+        />
       </div>
     </div>
   );
