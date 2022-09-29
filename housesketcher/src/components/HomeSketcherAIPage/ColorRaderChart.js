@@ -4,48 +4,69 @@ import { ResponsiveRadar } from '@nivo/radar';
 // 사용 라이브러리 : https://nivo.rocks/
 // 참고 블로그 : https://jforj.tistory.com/269
 
-const StyleRaderChart = ({ maleData, femaleData }) => {
+const ColorRaderChart = ({ maleData, femaleData }) => {
   // 3. 실시간 인기 스타일 차트 보여주기
+  console.log('male:', maleData, 'female', femaleData);
   let data = [
     {
-      taste: 'Modern',
-      male: maleData['Modern'],
-      female: femaleData['Modern'],
+      taste: 'Red',
+      male: maleData['red'],
+      female: femaleData['red'],
     },
     {
-      taste: 'Natural',
-      male: maleData['Natural'],
-      female: femaleData['Natural'],
+      taste: 'Orange',
+      male: maleData['orange'],
+      female: femaleData['orange'],
     },
     {
-      taste: 'Minimal',
-      male: maleData['Minimal'],
-      female: femaleData['Minimal'],
+      taste: 'Yellow',
+      male: maleData['yellow'],
+      female: femaleData['yellow'],
     },
     {
-      taste: 'North European',
-      male: maleData['North European'],
-      female: femaleData['North European'],
+      taste: 'Green',
+      male: maleData['green'],
+      female: femaleData['green'],
     },
     {
-      taste: 'Vintage',
-      male: maleData['Vintage'],
-      female: femaleData['Vintage'],
+      taste: 'Blue',
+      male: maleData['blue'],
+      female: femaleData['blue'],
     },
     {
-      taste: 'Antique',
-      male: maleData['Antique'],
-      female: femaleData['Antique'],
+      taste: 'Indigo',
+      male: maleData['indigo'],
+      female: femaleData['indigo'],
     },
     {
-      taste: 'Provence',
-      male: maleData['Provence'],
-      female: femaleData['Provence'],
+      taste: 'Purple',
+      male: maleData['purple'],
+      female: femaleData['purple'],
     },
     {
-      taste: 'Mediterranean',
-      male: maleData['Mediterranean'],
-      female: femaleData['Mediterranean'],
+      taste: 'Brown',
+      male: maleData['brown'],
+      female: femaleData['brown'],
+    },
+    {
+      taste: 'Pink',
+      male: maleData['pink'],
+      female: femaleData['pink'],
+    },
+    {
+      taste: 'White',
+      male: maleData['white'],
+      female: femaleData['white'],
+    },
+    {
+      taste: 'Black',
+      male: maleData['black'],
+      female: femaleData['black'],
+    },
+    {
+      taste: 'Gray',
+      male: maleData['gray'],
+      female: femaleData['gray'],
     },
   ];
 
@@ -94,4 +115,4 @@ const StyleRaderChart = ({ maleData, femaleData }) => {
   );
 };
 
-export default StyleRaderChart;
+export default ColorRaderChart;

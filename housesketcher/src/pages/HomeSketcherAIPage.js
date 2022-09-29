@@ -2,9 +2,11 @@ import Navbar from '../components/Navbar/Navbar';
 import { useEffect, useState } from 'react';
 import axios from '../utils/axios';
 import classes from './HomeSketcherAIPage.module.css';
-import StyleBarChart from '../components/HomeSketcherAIPage/StyleBarChart';
 import AIStyle from '../components/HomeSketcherAIPage/AIStyle';
+import StyleBarChart from '../components/HomeSketcherAIPage/StyleBarChart';
 import StyleRaderChart from '../components/HomeSketcherAIPage/StyleRaderChart';
+import ColorBarChart from '../components/HomeSketcherAIPage/ColorBarChart';
+import ColorRaderChart from '../components/HomeSketcherAIPage/ColorRaderChart';
 import LoadingText from '../components/Common/LodingText';
 
 function HomeSketcherAIPage() {
@@ -19,7 +21,6 @@ function HomeSketcherAIPage() {
   };
   const responseDataHandler = async () => {
     setIsLoading(true);
-    console.log('실행');
     await axios
       .get('auths/trend')
       .then((response) => {
@@ -36,31 +37,113 @@ function HomeSketcherAIPage() {
     responseDataHandler();
   }, []);
 
-  // 1. 이미지 백으로 보내기
-  // ==> 응답 기다리기
-  // ==> 스타일별 설명 text 랜더링
-
-  // 2. 스타일 저장하기 요청 보내기
-  // ==> 성공메세지 알람
-
-  // 3. 실시간 인기 스타일 차트 보여주기
   if (!responseData) {
     return <LoadingText />;
   }
-
   return (
-    <div>
+    <div className={classes.body}>
       <Navbar />
-      <div className={classes.justify_center}>
-        <AIStyle />
-        <StyleBarChart responseData={responseData.ageStyle} />
-        <StyleRaderChart
-          maleData={responseData.maleStyle}
-          femaleData={responseData.femaleStyle}
-        />
+      <div className={classes.main}>
+        {/* TODO*** : AIStyle 컴포넌트 css 원래대로 나오게 클래스 새로 만들기*/}
+        {/* TODO1 : 아래 ai_style a 테그 클릭시 display none붙여주기!!, 백 누르면 다시 보이게 하기*/}
+        {/* TODO2 : css 고치기 : 버튼 호버 색! 갈라지는 효과 가운데서 시작하게 하기*/}
+        <a href="#ai_style">
+          <button className={classes.btn}>
+            <span>AI Style Analytics</span>
+          </button>
+        </a>
+        <a href="#style_age" className={classes.open_popup}>
+          Style by age
+        </a>
+        <a href="#style_gender" className={classes.open_popup}>
+          Style by gender
+        </a>
+
+        <a href="#color_age" className={classes.open_popup}>
+          Color by gender
+        </a>
+        <a href="#color_gender" className={classes.open_popup}>
+          Style by gender
+        </a>
       </div>
+
+      <section id="ai_style" className={classes.popup}>
+        <div className={classes.my_margin}>
+          <a href="#">
+            <button className={classes.btn}>
+              <span>Back</span>
+            </button>
+          </a>
+          <AIStyle />
+        </div>
+      </section>
+
+      <section id="style_age" className={classes.popup}>
+        <div className={classes.my_margin}>
+          <a href="#">
+            <button className={classes.btn}>
+              <span>Back</span>
+            </button>
+          </a>
+          <StyleBarChart responseData={responseData.ageStyle} />
+        </div>
+      </section>
+
+      <section id="style_gender" className={classes.popup}>
+        <div className={classes.my_margin}>
+          <a href="#">
+            <button className={classes.btn}>
+              <span>Back</span>
+            </button>
+          </a>
+          <StyleRaderChart
+            maleData={responseData.maleStyle}
+            femaleData={responseData.femaleStyle}
+          />
+        </div>
+      </section>
+
+      <section id="color_age" className={classes.popup}>
+        <div className={classes.my_margin}>
+          <a href="#">
+            <button className={classes.btn}>
+              <span>Back</span>
+            </button>
+          </a>
+          <ColorBarChart responseData={responseData.ageColor} />
+        </div>
+      </section>
+
+      <section id="color_gender" className={classes.popup}>
+        <div className={classes.my_margin}>
+          <a href="#">
+            <button className={classes.btn}>
+              <span>Back</span>
+            </button>
+          </a>
+          <ColorRaderChart
+            maleData={responseData.maleColor}
+            femaleData={responseData.femaleColor}
+          />
+        </div>
+      </section>
     </div>
   );
+  // return (
+  //   <div>
+  //     <Navbar />
+  //     <div className={classes.justify_center}>
+  //       <AIStyle />
+
+  //       <StyleBarChart responseData={responseData.ageStyle} />
+  //       <StyleRaderChart
+  //         maleData={responseData.maleStyle}
+  //         femaleData={responseData.femaleStyle}
+  //       />
+  //     </div>
+  //     <AnimationToggle />
+  //   </div>
+  // );
 }
 
 export default HomeSketcherAIPage;
