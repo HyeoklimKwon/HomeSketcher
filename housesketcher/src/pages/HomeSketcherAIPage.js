@@ -25,14 +25,12 @@ function HomeSketcherAIPage() {
       .get('auths/trend')
       .then((response) => {
         setResponseData(response.data);
-        console.log(response.data.ageStyle);
         setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  console.log('page', responseData);
   useEffect(() => {
     responseDataHandler();
   }, []);

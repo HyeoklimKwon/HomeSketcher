@@ -6,7 +6,6 @@ import { ResponsiveRadar } from '@nivo/radar';
 
 const ColorRaderChart = ({ maleData, femaleData }) => {
   // 3. 실시간 인기 스타일 차트 보여주기
-  console.log('male:', maleData, 'female', femaleData);
   let data = [
     {
       taste: 'Red',
