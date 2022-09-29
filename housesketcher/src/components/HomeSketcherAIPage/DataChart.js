@@ -5,10 +5,11 @@ import axios from '../../utils/axios';
 // 사용 라이브러리 : https://nivo.rocks/
 // 참고 블로그 : https://jforj.tistory.com/269
 
-const DataChart = () => {
+const DataChart = ({ responseData }) => {
   // 3. 실시간 인기 스타일 차트 보여주기
-  const [responseData, setResponseData] = React.useState(null);
+
   const [isloading, setIsloading] = React.useState(true);
+  console.log('props', responseData);
   let data = [
     {
       country: 'Mediterranean',
@@ -132,36 +133,26 @@ const DataChart = () => {
     },
   ];
 
-  async function getData() {
-    await axios
-      .get('auths/trend')
-      .then((response) => {
-        setResponseData(response.data);
-        setIsloading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  console.log(responseData);
   if (responseData) {
     data = [
       {
-        country: 'Mediterranean',
-        zeroTo19: responseData.ageStyle[0][0].user_style__count,
+        country: 'Modern',
+        zeroTo19: responseData[0]['Modern'],
         zeroTo19Color: 'hsl(19, 70%, 50%)',
-        twenites: responseData.ageStyle[20][0].user_style__count,
+        twenites: responseData[20]['Modern'],
         twenitesColor: 'hsl(286, 70%, 50%)',
-        thirites: responseData.ageStyle[30][0].user_style__count,
+        thirites: responseData[30]['Modern'],
         thiritesColor: 'hsl(160, 70%, 50%)',
-        forties: responseData.ageStyle[40][0].user_style__count,
+        forties: responseData[40]['Modern'],
         fortiesColor: 'hsl(273, 70%, 50%)',
-        fifties: responseData.ageStyle[50][0].user_style__count,
+        fifties: responseData[50]['Modern'],
         fiftiesColor: 'hsl(119, 70%, 50%)',
-        sixties: responseData.ageStyle[60][0].user_style__count,
+        sixties: responseData[60]['Modern'],
         sixtiesColor: 'hsl(86, 70%, 50%)',
-        seventies: responseData.ageStyle[70][0].user_style__count,
+        seventies: responseData[70]['Modern'],
         seventiesColor: 'hsl(86, 70%, 50%)',
+        older: responseData['old']['Modern'],
+        olderColor: 'hsl(86, 70%, 50%)',
       },
       {
         country: 'Antique',
@@ -285,9 +276,7 @@ const DataChart = () => {
     ];
   }
 
-  React.useEffect(() => {
-    getData();
-  }, []);
+  React.useEffect(() => {}, []);
 
   if (isloading) {
     return <p>loading...</p>;
