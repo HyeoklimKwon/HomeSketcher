@@ -1,1 +1,0 @@
-export const DISTANCE_BETWEEN_FLOORS = 15;
