@@ -3,14 +3,12 @@ import React , { useState } from 'react';
 import { useCursor} from '@react-three/drei';
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import * as THREE from 'three';
 
 export default function ModelT (props)  {
   const setTarget = props.setTarget
   
   const gltf = useLoader(GLTFLoader, props.objUrl );
-  
-  // this.model = gltf;
+
   const [hovered, setHovered] = useState(false)
   
 

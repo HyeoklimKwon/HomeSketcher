@@ -29,55 +29,49 @@ const DevTools = () => {
 
 const useStore = create((set) => ({ target: null, setTarget: (target) => set({ target }) }))
 
-
+// ThreeJsPage 
 export default function ThreeJsPage() {
-  // let [currentFloor, setCurrentFloor] = useState(0);
   let currentFloor= 0;
   let [showCorners, setShowCorners] = useState(false);
   let [orthoCamera, setOrthoCamera] = useState(false);
-  let [objList, setObjList] = useState([])
-  let [objBox, setBox] =useState({ });
+  let [objList, setObjList] = useState([]);
 
-
+  
   // 가구 obj 더해주기 
   const addobjListHandler = (objUrl) => {
     setObjList(
-       [...objList, objUrl]
-    )
-  }
-
-  
+      [...objList, objUrl]
+      )
+    }
+    
+    
   let [X, setX] = useState(0);
   let [Y, setY] = useState(0);
   let [H, setH] = useState(0);
   const XXX = useRef();
   const YYY = useRef();
   const HHH = useRef();
+  
+
 
   const changeXHandler = () => {
     console.log(objList)
     if (XXX.current.value !== undefined) {
       setX(parseInt(XXX.current.value));
-    } else {
-      setX(5);
     }
   };
   const changeYHandler = () => {
     if (YYY.current.value !== undefined) {
       setY(parseInt(YYY.current.value));
-    } else {
-      setY(5);
     }
   };
   const changeHHandler = () => {
     if (HHH.current.value !== undefined) {
-      setH(parseInt(HHH.current.value));
-    } else {
-      setH(1);
+      setH(parseFloat(HHH.current.value));
     }
   };
-  let roomInfo = {
-    id: 'ROOM2',
+  let roomMain = {
+    id: 'roomMain',
     height: H,
     coords: [
       { x: 0, y: 0 },
@@ -94,17 +88,7 @@ export default function ThreeJsPage() {
         doors: [],
         windows: [],
         rooms: [
-          roomInfo,
-          // {
-          //   "id": "ROOM3",
-          //   "height": H,
-          //   "coords": [
-          //     { "x": 0, "y": 0 },
-          //     { "x": X/3, "y": 0 },
-          //     { "x": X/3, "y": Y/5 },
-          //     { "x": 0, "y": Y/5 }
-          //   ]
-          // }
+          roomMain,
         ],
       },
     ],
@@ -119,102 +103,64 @@ export default function ThreeJsPage() {
   const { target, setTarget } = useStore()
   const { mode } = useControls({ mode: { value: 'translate', options: ['translate', 'rotate', 'scale'] } })
   /////
+
+  //checkIntersect -> 충돌 확인, true일때 충돌난 경우
+
+  // objBox에 setBox를 이용해서 box들을 json 형태로 저장한다.
+  let [objBox, setBox] =useState({ });
   
-  // Object Change Event Function
+  //isCollison : 충돌 발생 여부  | setIsCollison : isCollison 토글 시키는 함수
+
+  
+  let [preX, setpreX] = useState(0.0);
+  let [preY, setpreY] = useState(0.0);
+  let [preZ, setpreZ] = useState(0.0);
+  let [preXYZ, setpreXYZ] = useState([]);
+
+
+  
   function ObjectChangeHandler(props){
-    const data = {}
-    const box = new THREE.Box3().setFromObject(props);
-    
+    const box = new THREE.Box3().setFromObject(props); // 현재 박스
 
-    data[props.uuid] = box
-    //  box 좌표 저장 
+    // setBox -> objBox 리스트. 가구 box들을 저장하는 리스트. 현재 위치를 업데이트 해 줌.
     setBox(prevState => ({
-      ...prevState,
-      [props.uuid]: box,
-    }));
-
-    const targetV = objBox[props.uuid]
-    const targetMinV = targetV.min
-    const targetMaxV = targetV.max
+          ...prevState,
+          [props.uuid]: box,
+        }));
+    
+    // Check collision box -> 충돌 확인
     for (const key in objBox) {
-
-      
-      let check1 = false
-      let check2 = false
-      let check3 = false
-      let check4 = false
-      let check5 = false
-      let check6 = false
-      let objecttMinV = objBox[key].min
-      let objecttMaxV = objBox[key].max
-
-
-      if ((objecttMinV.x < targetMaxV.x) &&(objecttMinV.z < targetMaxV.z) &&(objecttMaxV.x > targetMinV.x) &&(objecttMaxV.z > targetMinV.z)){
-        check1 = true;
+      console.log("key ============ ",key)
+      if(props.uuid !==key){ // 자기 자신 아닌 경우
+        if (box.intersectsBox(objBox[key])){ // 충돌이 발생한 경우
+          console.log("충돌충돌충돌충돌충돌충돌충돌충돌충돌충돌충돌충돌충돌충돌충돌충돌충돌충돌충돌충돌")
+          console.log(preXYZ.x)
+          console.log(preXYZ.y)
+          console.log(preXYZ.z)
+          // target.position.x = preXYZ.x
+          // target.position.y = preXYZ.y
+          // target.position.z = preXYZ.z
+          target.position.x = preX
+          target.position.y = preY
+          target.position.z = preZ
+          // break // 충돌 했으니 for문 탈출
+        }
+        if (-5.8 > props.position.x){
+          target.position.x = preX
+        }
+        // } &&(-4 < targetMinV.z)  && (-5.8+X > targetMaxV.x) &&(-4+Y > targetMaxV.z)){
+        //   check6 =true;
+        // }
+  
       }
-      else if  ((objecttMinV.x < targetMaxV.x) &&(objecttMaxV.z > targetMinV.z) &&(objecttMaxV.x > targetMinV.x) &&(objecttMinV.z < targetMaxV.z)){
-        check2 = true;
-      }
-      else if  ((objecttMaxV.x > targetMinV.x) &&(objecttMinV.z < targetMaxV.z) &&(objecttMinV.x < targetMaxV.x) &&(objecttMaxV.z > targetMinV.z)){
-        check3 = true;
-      }
-      else if  ((objecttMaxV.x > targetMinV.x) &&(objecttMaxV.z > targetMinV.z) &&(objecttMinV.x < targetMaxV.x) &&(objecttMinV.z < targetMaxV.z)){
-        check4 = true;
-      }
-      else{
-
-      }
-      if (((objecttMaxV.y > targetMinV.y) &&(objecttMinV.y < targetMaxV.y))  || ((objecttMinV.y < targetMaxV.y) &&(objecttMaxV.y > targetMinV.y))){
-        check5 =true;
-      }
-
-      if ((-5.8 < targetMinV.x) &&(-4 < targetMinV.z)  && (-5.8+X > targetMaxV.x) &&(-4+Y > targetMaxV.z)){
-        check6 =true;
-      }
-      
-      if (-4 >= targetMinV.z  ){
-        target.position.z = -3.37502134416813 - (targetMaxV.z-targetMinV.z)
-        console.log('위벽에 박음')
-      }
-      else if(-4+Y < targetMaxV.z){
-        target.position.z = -4+Y - (targetMaxV.z-targetMinV.z)
-        console.log('아래벽에 박음')
-      }
-
-      if(-5.8 > targetMinV.x){
-        target.position.x = -5.8 + (targetMaxV.x-targetMinV.x)
-        console.log('왼쪽벽에 박음')
-      }
-      else if(-5.8+X < targetMaxV.x){
-        target.position.x = -5.8+X - (targetMaxV.x-targetMinV.x)
-        console.log('오른쪽벽에 박음')
-      }
-
-      if (target.position.y < 0){
-        target.position.y = (targetMaxV.x-targetMinV.x)/2
-        console.log('바닥 박음')
-      }
-
-      // check1~check4 -> 사방위 충돌 체크 true이면 충돌 난 것
-      // check5 -> 위 아래 충돌 체크 true이면 충돌 난 것(같은 높이)
-      // check6 -> 방 내부에 있는지 체크. 얘는 false일 때 밖에 있음
-      if ( (((check1 || check2 || check3 || check4) && (check5)) || (!check6) ) &&(props.uuid !==key) ){
-        console.log('박스안')
-        console.log(key)
-        // window.alert('충돌충돌충돌'+key,)
-        console.log('박스안')
-      } 
-      else{
-        console.log('박스밖')
-        console.log(key)
-        console.log('박스밖')
-      }
-
-      check1=check2=check3=check4=check5=check6=false
     }
 
+    setpreX(target.position.x)
+    setpreY(target.position.y)
+    setpreZ(target.position.z)
+    setpreXYZ([...preXYZ, target.position] )
+    
   }
-
   
   return (
     <div className={classes.three_body}>
@@ -233,14 +179,13 @@ export default function ThreeJsPage() {
           key={`isometric-${orthoCamera}`}
           orthographic={orthoCamera}
           invalidateframeloop="false">
-
           {/* 가구 3D 모델 */}
           {objList.map((obj) => (
             <ModelT onPointerMissed={() => {setTarget(null); }} objUrl = {obj}  setTarget = {setTarget} />
           ))
           }
           
-          <Ground/>
+          {/* <Ground/> */}
           <CameraSetup />          
           <ambientLight intensity={0.5} color="#eef" />
           <pointLight position={[20, 10, -10]} decay={1} castShadow={true} />
@@ -254,7 +199,7 @@ export default function ThreeJsPage() {
               />
           </a.group>
 
-          {target && <TransformControls onChange={(e)=>{ObjectChangeHandler(target)}} object={target} mode={mode} />}
+          {target && <TransformControls onChange={(e) => { ObjectChangeHandler(target); }} object={target} mode={mode} />}
           <OrbitControls makeDefault />
           <DevTools />
         </Canvas>
@@ -329,4 +274,4 @@ const useFloorTransitionAnimation = ({ floors, currentFloor }) => {
   });
 
   return position;
-};
+}
