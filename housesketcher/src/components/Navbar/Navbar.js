@@ -22,13 +22,13 @@ function Navbar(props) {
           {/* <input className={styles.navbar_searchInput} type="text" />
         <SearchIcon className={styles.navbar_searchIcon} fontSize="large" />  */}
           <a href="/searchpage">
-            <p>Recommend</p>
+            <p>Search</p>
           </a>
           <a href="/modeling">
             <p>3DInterior</p>
           </a>
           <a href="/ai">
-            <p>Beta</p>
+            <p>Getcher.beta</p>
           </a>
         </div>
       )}

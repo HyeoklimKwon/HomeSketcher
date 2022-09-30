@@ -1,7 +1,7 @@
 .display_flex {
   display: flex;
-  margin-top: 2rem;
   width: 80%;
+  justify-content: center;
 }
 .user_img {
   width: 20rem;
@@ -40,4 +40,8 @@ input[type='file'] {
   left: 0;
   right: 0;
   bottom: 0;
+}
+
+.loading_position {
+  margin-top: 50rem;
 }

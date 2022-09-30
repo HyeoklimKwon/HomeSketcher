@@ -12,7 +12,8 @@ import LoadingText from '../components/Common/LodingText';
 function HomeSketcherAIPage() {
   const [responseData, setResponseData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [selected, setSelected] = useState('StyleBarChart');
+  const [isMain, setIsMain] = useState(true);
+
   const chartList = {
     StyleBarChart: 0,
     StyleRaderChart: 0,
@@ -42,58 +43,103 @@ function HomeSketcherAIPage() {
     <div className={classes.body}>
       <Navbar />
       <div className={classes.main}>
-        {/* TODO*** : AIStyle 컴포넌트 css 원래대로 나오게 클래스 새로 만들기*/}
-        {/* TODO1 : 아래 ai_style a 테그 클릭시 display none붙여주기!!, 백 누르면 다시 보이게 하기*/}
         {/* TODO2 : css 고치기 : 버튼 호버 색! 갈라지는 효과 가운데서 시작하게 하기*/}
-        <a href="#ai_style">
-          <button className={classes.btn}>
+        <a
+          href="#ai_style"
+          onClick={() => {
+            setIsMain(false);
+          }}
+        >
+          <button className={isMain ? classes.btn : classes.display_none}>
             <span>AI Style Analytics</span>
           </button>
         </a>
-        <a href="#style_age" className={classes.open_popup}>
+        <a
+          href="#style_age"
+          className={classes.open_popup}
+          onClick={() => {
+            setIsMain(false);
+          }}
+        >
           Style by age
         </a>
-        <a href="#style_gender" className={classes.open_popup}>
+        <a
+          href="#style_gender"
+          className={classes.open_popup}
+          onClick={() => {
+            setIsMain(false);
+          }}
+        >
           Style by gender
         </a>
 
-        <a href="#color_age" className={classes.open_popup}>
+        <a
+          href="#color_age"
+          className={classes.open_popup}
+          onClick={() => {
+            setIsMain(false);
+          }}
+        >
           Color by age
         </a>
-        <a href="#color_gender" className={classes.open_popup}>
+        <a
+          href="#color_gender"
+          className={classes.open_popup}
+          onClick={() => {
+            setIsMain(false);
+          }}
+        >
           Color by gender
         </a>
       </div>
 
       <section id="ai_style" className={classes.popup}>
         <div className={classes.my_margin}>
-          <a href="#">
+          <a
+            href="#"
+            onClick={() => {
+              setIsMain(true);
+            }}
+          >
             <button className={classes.btn}>
               <span>Back</span>
             </button>
           </a>
+          <div className={classes.my_margin}></div>
           <AIStyle />
         </div>
       </section>
 
       <section id="style_age" className={classes.popup}>
         <div className={classes.my_margin}>
-          <a href="#">
+          <a
+            href="#"
+            onClick={() => {
+              setIsMain(true);
+            }}
+          >
             <button className={classes.btn}>
               <span>Back</span>
             </button>
           </a>
+          <div className={classes.my_margin}></div>
           <StyleBarChart responseData={responseData.ageStyle} />
         </div>
       </section>
 
       <section id="style_gender" className={classes.popup}>
         <div className={classes.my_margin}>
-          <a href="#">
+          <a
+            href="#"
+            onClick={() => {
+              setIsMain(true);
+            }}
+          >
             <button className={classes.btn}>
               <span>Back</span>
             </button>
           </a>
+          <div className={classes.my_margin}></div>
           <StyleRaderChart
             maleData={responseData.maleStyle}
             femaleData={responseData.femaleStyle}
@@ -103,22 +149,34 @@ function HomeSketcherAIPage() {
 
       <section id="color_age" className={classes.popup}>
         <div className={classes.my_margin}>
-          <a href="#">
+          <a
+            href="#"
+            onClick={() => {
+              setIsMain(true);
+            }}
+          >
             <button className={classes.btn}>
               <span>Back</span>
             </button>
           </a>
+          <div className={classes.my_margin}></div>
           <ColorBarChart responseData={responseData.ageColor} />
         </div>
       </section>
 
       <section id="color_gender" className={classes.popup}>
         <div className={classes.my_margin}>
-          <a href="#">
+          <a
+            href="#"
+            onClick={() => {
+              setIsMain(true);
+            }}
+          >
             <button className={classes.btn}>
               <span>Back</span>
             </button>
           </a>
+          <div className={classes.my_margin}></div>
           <ColorRaderChart
             maleData={responseData.maleColor}
             femaleData={responseData.femaleColor}
