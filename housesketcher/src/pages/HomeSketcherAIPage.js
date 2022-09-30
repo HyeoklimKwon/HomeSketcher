@@ -43,8 +43,6 @@ function HomeSketcherAIPage() {
     <div className={classes.body}>
       <Navbar />
       <div className={classes.main}>
-        {/* TODO*** : AIStyle 컴포넌트 css 원래대로 나오게 클래스 새로 만들기*/}
-        {/* TODO1 : 아래 ai_style a 테그 클릭시 display none붙여주기!!, 백 누르면 다시 보이게 하기*/}
         {/* TODO2 : css 고치기 : 버튼 호버 색! 갈라지는 효과 가운데서 시작하게 하기*/}
         <a
           href="#ai_style"
@@ -107,6 +105,7 @@ function HomeSketcherAIPage() {
               <span>Back</span>
             </button>
           </a>
+          <div className={classes.my_margin}></div>
           <AIStyle />
         </div>
       </section>
@@ -123,6 +122,7 @@ function HomeSketcherAIPage() {
               <span>Back</span>
             </button>
           </a>
+          <div className={classes.my_margin}></div>
           <StyleBarChart responseData={responseData.ageStyle} />
         </div>
       </section>
@@ -159,6 +159,7 @@ function HomeSketcherAIPage() {
               <span>Back</span>
             </button>
           </a>
+          <div className={classes.my_margin}></div>
           <ColorBarChart responseData={responseData.ageColor} />
         </div>
       </section>
@@ -175,6 +176,7 @@ function HomeSketcherAIPage() {
               <span>Back</span>
             </button>
           </a>
+          <div className={classes.my_margin}></div>
           <ColorRaderChart
             maleData={responseData.maleColor}
             femaleData={responseData.femaleColor}

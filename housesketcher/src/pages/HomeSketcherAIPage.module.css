@@ -2,6 +2,10 @@ a {
   text-decoration: none;
 }
 
+.body {
+  user-select: none;
+}
+
 .justify_center {
   display: flex;
   flex-direction: column;
