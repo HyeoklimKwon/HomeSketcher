@@ -3,11 +3,11 @@ import { Canvas, useThree, useFrame  } from "react-three-fiber";
 import { a, useSpring } from '@react-spring/three';
 import { useHistory } from 'react-router-dom';
 // import data from '../components/ThreeJsPage/floplan-data.json';
-import CameraSetup from '../components/ThreeJsPage/CameraSetup';
 import FloorPlan from '../components/ThreeJsPage/FloorPlan';
 import Ground from '../components/ThreeJsPage/Ground';
 
 import  ModelT  from '../components/ThreeJsPage/Modelt';
+import Model from '../components/ThreeJsPage/Model';
 import  CameraSetup  from '../components/ThreeJsPage/CameraSetup';
 import { DISTANCE_BETWEEN_FLOORS } from '../components/ThreeJsPage/constants';
 import classes from './ThreeJsPage.module.css';
@@ -28,6 +28,7 @@ import { button } from 'react-bootstrap'
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import * as THREE from 'three'
 //////////////////////
 
 const DevTools = () => {
@@ -59,6 +60,7 @@ export default function ThreeJsPage() {
   let [orthoCamera, setOrthoCamera] = useState(false);
   let [objList, setObjList] = useState([])
   let [recomList, setRecomList] = useState([])
+  let [isOpen, setIsOpen] = useState(true)
 
   const makeRoomClick = async () => {
     console.log('Clicked makeRoom button!');
@@ -98,13 +100,14 @@ export default function ThreeJsPage() {
   // 가구 obj 더해주기 
   const addobjListHandler = (objUrl) => {
     console.log(objUrl);
-    if ( objList.includes(objUrl)){
+    if (objList.includes(objUrl)){
       console.log(' 중복');
     }else {
       setObjList(
          [...objList, objUrl]
       )
       console.log('위의 것을 넣습니다.');
+      console.log(objList);
     }
   }
 
@@ -130,7 +133,9 @@ export default function ThreeJsPage() {
   const YYY = useRef();
   const HHH = useRef();
   
-
+  const toggleMenu = () => {
+    setIsOpen(!isOpen)
+  }
 
   const changeXHandler = () => {
     console.log(objList)
@@ -291,9 +296,9 @@ export default function ThreeJsPage() {
             <br />
             <br />
 
-            <button style={{ display : 'absolute'}}
+            {/* <button style={{ display : 'absolute'}}
              onClick={() => onClickResetCamera()}
-            >Reset View</button>
+            >Reset View</button> */}
 
             <button style={{ width: '100%'}}>Staged Furnitures</button>
             <Staged furnitures = {objList} removeObj ={removeobjListHandler}/>
@@ -358,7 +363,7 @@ export default function ThreeJsPage() {
           invalidateframeloop="false">
           {/* 가구 3D 모델 */}
           {objList.map((obj) => (
-            <ModelT onPointerMissed={() => {setTarget(null); }} objUrl = {obj}  setTarget = {setTarget} />
+            <ModelT onPointerMissed={() => setTarget(null)} objUrl = {obj.glb_url}  setTarget = {setTarget} />
           ))
           }
           
