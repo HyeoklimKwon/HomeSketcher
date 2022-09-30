@@ -93,12 +93,13 @@ function AIStyle() {
                 return <p className={classes.small_text}>{text}</p>;
               })}
             </div>
+            <button>Save this style</button> 
           </div>
         ) : (
           <div>
             <h2>Pick a Picture</h2>
             <p className={classes.explain_text}>
-              Home Sketcher will analyze style of pictureq
+              Home Sketcher will analyze style of picture
             </p>
           </div>
         )}
