@@ -53,7 +53,7 @@ const StyleRaderChart = ({ maleData, femaleData }) => {
 
   return (
     // chart height이 100%이기 때문이 chart를 덮는 마크업 요소에 height 설정
-    <div style={{ width: '80%', height: '20rem', margin: '0 auto' }}>
+    <div style={{ width: '60%', height: '20rem', margin: '0 auto' }}>
       <ResponsiveRadar
         data={data}
         keys={['male', 'female']}
@@ -65,19 +65,19 @@ const StyleRaderChart = ({ maleData, femaleData }) => {
         dotSize={10}
         dotColor={{ theme: 'background' }}
         dotBorderWidth={2}
-        colors={{ scheme: 'nivo' }}
+        colors={{ scheme: 'pastel1' }}
         blendMode="multiply"
         motionConfig="wobbly"
         legends={[
           {
             anchor: 'top-left',
             direction: 'column',
-            translateX: -50,
+            translateX: -10,
             translateY: -40,
-            itemWidth: 80,
+            itemWidth: 20,
             itemHeight: 20,
             itemTextColor: '#999',
-            symbolSize: 12,
+            symbolSize: 14,
             symbolShape: 'circle',
             effects: [
               {

@@ -3,9 +3,9 @@ import Card from 'react-bootstrap/Card';
 import { useState, useContext } from 'react';
 import AuthContext from '../../../context/AuthContext';
 import axios from 'axios';
+import { button } from 'react-bootstrap'
 
-
-export default function LikeThreeFurniture(props) {
+export default function StageThreeFurniture(props) {
 	let { BASE_URL, authTokens } = useContext(AuthContext)
 	
 	// props.like 받았다고 가정 기본 default 값은 false 대신에 props.like가 들어가겠지?	
@@ -32,10 +32,11 @@ export default function LikeThreeFurniture(props) {
 	}
 
 	return (		
-			<Card style={{ maxWidth : '120px',cursor: 'pointer'}} key={furniture.id}
-				onClick = {() => {props.getFurnObj(furniture)}}>
-				<p style={{ display : 'flex', justifyContent : 'center', marginBottom: '0.5rem', marginTop: '0.5rem'}}>{furniture.furniture_price}$</p>					
-				<Card.Img onClick={() => { onClickFurnitureHandler(furniture.id) }} variant="top" src={furniture.furniture_image} />				
+			<Card style={{ maxWidth : '120px'}} 
+				>				
+				<button onClick={() => {props.getFurnObj(furniture)}} style={{ width: '5px', height : '5px',position : 'absolute' , display : 'flex', marginLeft: '103px', cursor : 'pointer'}} type="button" class="btn-close" aria-label="Close"></button>
+				<p style={{ display : 'flex', justifyContent : 'center', marginBottom: '0.5rem', marginTop: '0.5rem'}}>{furniture.furniture_price}$</p>									
+				<Card.Img variant="top" src={furniture.furniture_image} />				
 				<Card.Body				
 				onMouseEnter={() => { setIsMouseOnHandler(true) }} 	      // 마우스엔터 이벤트이면 hide가 false가 된다.
 				onMouseLeave={() => { setIsMouseOnHandler(false) }}>
@@ -44,8 +45,7 @@ export default function LikeThreeFurniture(props) {
 						 {furniture.furniture_name} </p>: 
 						 <p>{nameSpacer(furniture.furniture_name)}</p>}			
 
-					</b>
-																
+					</b>																
 				</Card.Body>
 				{/* <Card.Body style={{ paddingBottom: '0px' }}>
 				</Card.Body> */}

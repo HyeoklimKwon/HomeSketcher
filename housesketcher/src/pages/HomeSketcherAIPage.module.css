@@ -1,3 +1,11 @@
+a {
+  text-decoration: none;
+}
+
+.body {
+  user-select: none;
+}
+
 .justify_center {
   display: flex;
   flex-direction: column;
@@ -55,7 +63,7 @@
   display: flex;
 }
 
-.popup p {
+.popup > p {
   font-size: 100px;
   text-align: center;
   margin: 0.3em 0.05em;
@@ -152,4 +160,8 @@
 .btn:hover:after {
   -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
   transform: translateX(-9%) translateY(-25%) rotate(45deg);
+}
+
+.display_none {
+  display: none;
 }
