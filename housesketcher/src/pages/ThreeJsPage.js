@@ -5,6 +5,7 @@ import FloorPlan from '../components/ThreeJsPage/FloorPlan';
 import Ground from '../components/ThreeJsPage/Ground';
 
 import  ModelT  from '../components/ThreeJsPage/Modelt';
+import  CameraSetup  from '../components/ThreeJsPage/CameraSetup';
 import { DISTANCE_BETWEEN_FLOORS } from '../components/ThreeJsPage/constants';
 import classes from './ThreeJsPage.module.css';
 
@@ -75,6 +76,17 @@ export default function ThreeJsPage() {
       setH(1);
     }
   };
+  let roomInfo = {
+    id: 'ROOM2',
+    height: H,
+    coords: [
+      { x: 0, y: 0 },
+      { x: X, y: 0 },
+      { x: X, y: Y },
+      { x: 0, y: Y },
+    ],
+  }
+
   let newItem = {
     floors: [
       {
@@ -82,16 +94,7 @@ export default function ThreeJsPage() {
         doors: [],
         windows: [],
         rooms: [
-          {
-            id: 'ROOM2',
-            height: H,
-            coords: [
-              { x: 0, y: 0 },
-              { x: X, y: 0 },
-              { x: X, y: Y },
-              { x: 0, y: Y },
-            ],
-          },
+          roomInfo,
           // {
           //   "id": "ROOM3",
           //   "height": H,
@@ -169,20 +172,27 @@ export default function ThreeJsPage() {
         check6 =true;
       }
       
-
-      if (check6){
-        console.log('안에있지롱')
-      }
-      else{
-        // alert("ㅋㅋㄹㅃㅃ 밖에 있지롱")
-        // console.log(target.position.x)
-        // console.log(target.position.y)
-        // alert(target.position.x + " " + target.position.z)
-        target.position.x = 0
-        target.position.y = 0
-        console.log(targetMaxV.z-targetMinV.z)
+      if (-4 >= targetMinV.z  ){
         target.position.z = -3.37502134416813 - (targetMaxV.z-targetMinV.z)
-        console.log("난밖에있어 ")
+        console.log('위벽에 박음')
+      }
+      else if(-4+Y < targetMaxV.z){
+        target.position.z = -4+Y - (targetMaxV.z-targetMinV.z)
+        console.log('아래벽에 박음')
+      }
+
+      if(-5.8 > targetMinV.x){
+        target.position.x = -5.8 + (targetMaxV.x-targetMinV.x)
+        console.log('왼쪽벽에 박음')
+      }
+      else if(-5.8+X < targetMaxV.x){
+        target.position.x = -5.8+X - (targetMaxV.x-targetMinV.x)
+        console.log('오른쪽벽에 박음')
+      }
+
+      if (target.position.y < 0){
+        target.position.y = (targetMaxV.x-targetMinV.x)/2
+        console.log('바닥 박음')
       }
 
       // check1~check4 -> 사방위 충돌 체크 true이면 충돌 난 것
@@ -206,23 +216,6 @@ export default function ThreeJsPage() {
   }
 
   
-
-  // console.log('targettargettarget', target)
-  function ObjectClickHandler(props){
-    console.log('ObjectClickHandlertt')
-    console.log(props)
-    const data = {}
-    const box = new THREE.Box3().setFromObject(props);
-    
-
-    data[props.uuid] = box
-    //  box 좌표 저장 
-    setBox(prevState => ({
-      ...prevState,
-      [props.uuid]: box,
-    }));
-
-  }
   return (
     <div className={classes.three_body}>
 
@@ -242,19 +235,13 @@ export default function ThreeJsPage() {
           invalidateframeloop="false">
 
           {/* 가구 3D 모델 */}
-          {/* {objList.map((obj) => (
-            <Model onPointerMissed={() => {setTarget(null);}} objUrl = {obj} setTarget = {setTarget} />
-          ))
-          } */}
-
           {objList.map((obj) => (
-            // <ModelT onPointerMissed={() => {setTarget(null); clickobj(objList,obj);}} objUrl = {obj} addVector= {ObjectClickHandler} setTarget = {setTarget} />
             <ModelT onPointerMissed={() => {setTarget(null); }} objUrl = {obj}  setTarget = {setTarget} />
           ))
           }
           
           <Ground/>
-          {/* <CameraSetup /> */}          
+          <CameraSetup />          
           <ambientLight intensity={0.5} color="#eef" />
           <pointLight position={[20, 10, -10]} decay={1} castShadow={true} />
           <pointLight position={[-20, 20, 5]} decay={1} castShadow={true} />
