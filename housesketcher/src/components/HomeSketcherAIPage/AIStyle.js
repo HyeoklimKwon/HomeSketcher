@@ -1,8 +1,12 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import Axios from 'axios';
+import { useEffect, useState, useContext } from 'react';
 import BASE_URL from './AIBaseUrl';
 import classes from './AIStyle.module.css';
 import LodingText from '../Common/LodingText';
+import axios from '../../utils/axios';
+import swal from "sweetalert2";
+import AuthContext from '../../context/AuthContext';
+import { useHistory } from 'react-router-dom';
 
 const textContext = {
   Natural: [
@@ -47,6 +51,9 @@ function AIStyle() {
   const [style, setStyle] = useState(null);
   const [predictValue, setPredictValue] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const {user} = useContext(AuthContext)
+  const history = useHistory()
+
   const imageUpload = async (e) => {
     const file = e.target.files[0];
     if (NotAvailableList.includes(file.type)) {
@@ -56,7 +63,7 @@ function AIStyle() {
     }
     setIsLoading(true);
     setFileUrl(URL.createObjectURL(file));
-    axios({
+    Axios({
       headers: {
         'Content-Type': 'multipart/form-data',
         'Access-Control-Allow-Origin': '*',
@@ -82,6 +89,34 @@ function AIStyle() {
       </div>
     );
   }
+
+  const fixStyleHandler = (result) => {
+    axios.put('interests/userStyleChange/', {
+      style : result
+    })
+    .then (
+      (response) => {
+        console.log(response.data.message);
+        new swal(
+          'Style change complete',
+          `before : ${user.user_style} &nbsp;&nbsp;  after : ${style}`,
+          'success',{
+              showCancelButton: true,
+              cancelButtonText: 'cancel',
+              reverseButtons: true,
+          }
+          
+        )
+        history.push('/loginmain')
+      }
+    ).catch((err) => 
+    new swal(
+      'Error!',
+      `Please try again or reload the page`,
+      'error'
+    )  );
+    
+  }
   return (
     <div className={classes.display_flex}>
       <div className={classes.left_width}>
@@ -93,7 +128,7 @@ function AIStyle() {
                 return <p className={classes.small_text}>{text}</p>;
               })}
             </div>
-            <button>Save this style</button> 
+            <button onClick={() => fixStyleHandler(style)}>Save this style</button> 
           </div>
         ) : (
           <div>
