@@ -27,6 +27,9 @@ function Navbar(props) {
           <a href="/modeling">
             <p>3DInterior</p>
           </a>
+          <a href="/ai">
+            <p>Beta</p>
+          </a>
         </div>
       )}
 
