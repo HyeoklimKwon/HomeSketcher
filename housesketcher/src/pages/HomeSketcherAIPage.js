@@ -58,10 +58,10 @@ function HomeSketcherAIPage() {
         </a>
 
         <a href="#color_age" className={classes.open_popup}>
-          Color by gender
+          Color by age
         </a>
         <a href="#color_gender" className={classes.open_popup}>
-          Style by gender
+          Color by gender
         </a>
       </div>
 
