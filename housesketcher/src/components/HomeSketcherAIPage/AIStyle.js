@@ -69,7 +69,11 @@ function AIStyle() {
   useEffect(() => {}, []);
 
   if (isLoading) {
-    return <LodingText />;
+    return (
+      <div className={classes.loading_position}>
+        <LodingText />
+      </div>
+    );
   }
   return (
     <div className={classes.display_flex}>
@@ -86,7 +90,9 @@ function AIStyle() {
         ) : (
           <div>
             <h2>Pick a Picture</h2>
-            <p>Home Sketcher will analyze style of pictureq</p>
+            <p className={classes.explain_text}>
+              Home Sketcher will analyze style of pictureq
+            </p>
           </div>
         )}
       </div>
@@ -95,11 +101,7 @@ function AIStyle() {
         {fileUrl ? (
           <div className={classes.wrapper}>
             <div className={classes.wrapper}>
-              <img
-                src={fileUrl}
-                alt="uploaded img"
-                className={classes.user_img}
-              />
+              <img src={fileUrl} alt="uploaded img" className={classes.user_img} />
             </div>
             <input
               type="file"
