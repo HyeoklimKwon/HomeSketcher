@@ -1,3 +1,7 @@
+a {
+  text-decoration: none;
+}
+
 .justify_center {
   display: flex;
   flex-direction: column;
@@ -152,4 +156,8 @@
 .btn:hover:after {
   -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
   transform: translateX(-9%) translateY(-25%) rotate(45deg);
+}
+
+.display_none {
+  display: none;
 }
