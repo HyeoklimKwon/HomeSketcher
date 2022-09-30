@@ -40,6 +40,8 @@ const textContext = {
   ],
 };
 
+const NotAvailableList = ['image/png', 'image/gif'];
+
 function AIStyle() {
   const [fileUrl, setFileUrl] = useState(null);
   const [style, setStyle] = useState(null);
@@ -47,6 +49,11 @@ function AIStyle() {
   const [isLoading, setIsLoading] = useState(false);
   const imageUpload = async (e) => {
     const file = e.target.files[0];
+    if (NotAvailableList.includes(file.type)) {
+      const extension = file.type.split('/')[1];
+      alert(`Sorry, "${extension}" is not available filename extension`);
+      return;
+    }
     setIsLoading(true);
     setFileUrl(URL.createObjectURL(file));
     axios({

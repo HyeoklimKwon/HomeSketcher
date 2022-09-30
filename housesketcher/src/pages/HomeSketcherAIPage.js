@@ -139,6 +139,7 @@ function HomeSketcherAIPage() {
               <span>Back</span>
             </button>
           </a>
+          <div className={classes.my_margin}></div>
           <StyleRaderChart
             maleData={responseData.maleStyle}
             femaleData={responseData.femaleStyle}
