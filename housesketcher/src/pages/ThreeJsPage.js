@@ -127,8 +127,31 @@ export default function ThreeJsPage() {
           ...prevState,
           [props.uuid]: box,
         }));
+    let targetBox = objBox[props.uuid]
+    // 벽 충돌
+    // x 축 : -6 ~ 
+    if (-5.92+(targetBox.max.x-targetBox.min.x)/2> props.position.x){
+      target.position.x = preX
+    }
+    if (-5.92+X-(targetBox.max.x-targetBox.min.x)/2 < props.position.x){
+      target.position.x = preX
+    }
     
-    // Check collision box -> 충돌 확인
+    if (-4.615 + (targetBox.max.z-targetBox.min.z)/2> props.position.z){
+      target.position.z = preZ
+    }
+    if (-4.615+Y -(targetBox.max.z-targetBox.min.z)/2 < props.position.z){
+      target.position.z = preZ
+    }
+    if (target.position.y < 0){
+      target.position.y = preY
+    }
+    if (target.position.y + (targetBox.max.y - targetBox.min.y)/2 > H ){
+      target.position.y = preY
+    }
+    
+
+    // Check collision box -> 충돌 확인 // 오브젝트간 충돌
     for (const key in objBox) {
       console.log("key ============ ",key)
       if(props.uuid !==key){ // 자기 자신 아닌 경우
@@ -145,9 +168,7 @@ export default function ThreeJsPage() {
           target.position.z = preZ
           // break // 충돌 했으니 for문 탈출
         }
-        if (-5.8 > props.position.x){
-          target.position.x = preX
-        }
+        
         // } &&(-4 < targetMinV.z)  && (-5.8+X > targetMaxV.x) &&(-4+Y > targetMaxV.z)){
         //   check6 =true;
         // }
