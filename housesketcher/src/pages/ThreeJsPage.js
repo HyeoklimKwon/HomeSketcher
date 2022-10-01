@@ -337,7 +337,7 @@ export default function ThreeJsPage() {
             </div>
               } 
             {recomList.map(([key, value]) => (
-              <div  key = {key} style ={{ marginBottom: '1px', display : loading? 'none' : null}}>
+              <div  key = {key} style ={{ display : loading? 'none' : null}}>
                 <ItemUX furnkey = {key} furnvalue = {value} addobjHandler = {addobjListHandler}/>
                 {/* <button style={{ width: '100%'}}>{key}</button>
                 <RecomFurn addObj = {addobjListHandler} furnitures = {value}/> */}
