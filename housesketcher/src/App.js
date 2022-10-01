@@ -15,23 +15,23 @@ import TTTest from './pages/TTTest';
 import NewMind from './pages/NewMind';
 import ScrollToTop from './hooks/ScrollToTop';
 import HomeSketcherAIPage from './pages/HomeSketcherAIPage';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from './context/themeProvider';
 import { GlobalStyle } from './theme/GlobalStyle';
 
 function App() {
   return (
     <div className="App">
       <Router>
-          <ThemeProvider>
-            <GlobalStyle />
         <AuthProvider>
           {/* AuthProvider를 통해 안에 있는 페이지안에서 유저정보를 사용가능하다. 
             import React, {useContext} from 'react'
             import AuthContext from '../context/AuthContext'(위치)
             함수 안 let {authTokens} = useContext(AuthContext) => token 가져오기 authTokens.access 
-                    let {userInfo} = useContext(AuthContext) => 현재 유저정보 가져오기 
+            let {userInfo} = useContext(AuthContext) => 현재 유저정보 가져오기 
           */}
-            <ScrollToTop>
+          <ScrollToTop>
+            <ThemeProvider >
+              <GlobalStyle />
               <Switch className="App">
                 <NonPrivateRoute component={NonLoginMainPage} exact path="/" />
                 <PrivateRoute component={LoginMainPage} exact path="/loginmain" />
@@ -44,9 +44,9 @@ function App() {
                 <Route component={NewMind} exact path="/new" />
                 <Route component={HomeSketcherAIPage} exaxt path="/ai" />
               </Switch>
-            </ScrollToTop>
+            </ThemeProvider>
+          </ScrollToTop>
         </AuthProvider>
-          </ThemeProvider>
       </Router>
     </div>
   );

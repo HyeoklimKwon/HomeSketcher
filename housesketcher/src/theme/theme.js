@@ -1,14 +1,16 @@
 export const lightTheme = {
-    bgColor: '#FFFFFF',
-    navColor: '#FFFAEE',
+    textColor: '#ccc',
+    bgColor: '#202020',
 }
 
 export const darkTheme = {
-    bgColor: '#1E1E22',
-    navColor: '#ccc',
+    textColor: '#31302E',
+    bgColor: '#ffffff'
 }
 
 export const theme = {
     lightTheme,
     darkTheme
 }
+
+export default theme;

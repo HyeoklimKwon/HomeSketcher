@@ -13,7 +13,9 @@ function MainCarousel(props) {
             <h2>Plan Your Room Design</h2>
             <br />
             <p className={styles.content}>
+            <br />
             <br/>Using the HomeSketcher App
+            <br />
             <br/> you can create your room design on your computer
             </p>
             <br />
@@ -26,8 +28,11 @@ function MainCarousel(props) {
             <h2>Pick your Taste</h2>
             <br />
             <p className={styles.content}>
+            <br />
             <br/>HomeSketcher identifies your taste and
+            <br />
             <br/>recommends the best furniture
+            <br />
             <br/>Decorate your home with recommended furniture
             </p>
             <br />
@@ -43,8 +48,11 @@ function MainCarousel(props) {
             <h2>Bring Your Ideas Into 3D</h2>
             <br />
             <p className={styles.content}>
+            <br />
             <br/>Pick your furnitures and put
+            <br />
             <br/>we build the 3D rooms for you
+            <br />
             <br/>even with complex building structures
             </p>
             <br />
