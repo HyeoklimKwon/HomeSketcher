@@ -78,6 +78,7 @@ export default function ThreeJsPage() {
   let [objList, setObjList] = useState([])
   let [recomList, setRecomList] = useState([])
   let [isOpen, setIsOpen] = useState(true)
+  let [urls, setUrls] = useState([])
 
   const makeRoomClick = async () => {
     console.log('Clicked makeRoom button!');
@@ -113,15 +114,18 @@ export default function ThreeJsPage() {
     }, 1000);
   }, []);
 
+
   // 가구 obj 더해주기
-  const addobjListHandler = (objUrl) => {
-    console.log(objUrl);
-    if (objList.includes(objUrl)) {
-      console.log(' 중복');
+  const addobjListHandler = (furn_info) => {
+    console.log(furn_info, '추가시도');
+      
+    if (urls.includes(furn_info.glb_url)) {
+      console.log('중복');
+      alert('Sorry! Same glb file cannot be added to 3D canvas!')  
     } else {
-      setObjList([...objList, objUrl]);
-      console.log('위의 것을 넣습니다.');
-      console.log(objList);
+      setObjList([...objList, furn_info]);
+      setUrls([...urls, furn_info.glb_url])
+      console.log('위의 것을 넣습니다.');      
     }
   };
 
@@ -129,6 +133,7 @@ export default function ThreeJsPage() {
   const removeobjListHandler = (objUrl) => {
     console.log('remove', objUrl);
     setObjList(objList.filter((obj) => obj.id !== objUrl.id));
+    setUrls(urls.filter((url) => url !== objUrl.glb_url))
   };
 
   let [X, setX] = useState(0);

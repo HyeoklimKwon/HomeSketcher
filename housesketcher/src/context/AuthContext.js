@@ -16,6 +16,7 @@ import { createContext, useState, useEffect } from 'react';
 //   }
 
 import { useHistory } from 'react-router-dom';
+import swal from "sweetalert2";
 
 const AuthContext = createContext();
 
@@ -68,7 +69,11 @@ export const AuthProvider = ({ children }) => {
         history.push('/');
       }
     } else {
-      alert('Login Failed!');
+      new swal(
+        'Oops!',
+        '<b style="color:red;">Login Error!</b> Write correct id and password :)',
+        'error'
+      )
     }
   };
 

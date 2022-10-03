@@ -9,7 +9,7 @@ import swal from "sweetalert2";
 
 
 export default function EditProfilePage() {
-  const { BASE_URL , user} = useContext(AuthContext)
+  const { BASE_URL , user, logoutUser} = useContext(AuthContext)
   const emailInput = useRef();
   const passwordInput = useRef();
   const passwordCheckInput = useRef();
@@ -39,6 +39,36 @@ export default function EditProfilePage() {
   //     gender: value
   //   })
   // }
+  const authTokens = localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')): null
+  const resignClickHandler = () => {
+    swal.fire({
+      title : 'Do you really really want to resign?',
+      text : 'if you resign, you can not go back',
+      icon : 'warning',
+
+      showCancelButton :true,
+      confirmButtonColor : '#3085d6',
+      cancelButtonColor : '#d33',
+      confirmButtonText : 'Approved',
+      cancelButtonText : 'Cancel',
+      reverseButtons : true
+    }).then(
+      result => {
+        if(result.isConfirmed){
+          swal.fire('Resign Complete', 'Goodbye...', 'success')
+          fetch(BASE_URL + `auths/delete/${user.id}/`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + authTokens.access
+            }
+          }).then(res => logoutUser())
+          
+          
+        }
+      }
+    )
+  }
 
   const maleChange = async (event) => {
     event.preventDefault()
@@ -74,7 +104,6 @@ export default function EditProfilePage() {
     )
 
   }
-  const authTokens = localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')): null
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -200,10 +229,16 @@ export default function EditProfilePage() {
           </div>
           <button onClick={submitHandler} >Edit Profile</button>
         </form>
+        <br />
+
 
         <Link className={styles.linkP} to='/loginmain'>
           <p>Cancel editing profile</p>
         </Link>
+
+        <b onClick = {resignClickHandler} className={styles.linkP} >
+          <p>Click if you want to resign...</p>
+        </b>
       </section>
 
     </div>
