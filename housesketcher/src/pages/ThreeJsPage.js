@@ -94,7 +94,7 @@ export default function ThreeJsPage() {
     })
       .then((response) => {
         setRecomList(Object.entries(response.data));
-        console.log('recomList', recomList);
+        
       })
       .catch((err) => {
         console.log(err);

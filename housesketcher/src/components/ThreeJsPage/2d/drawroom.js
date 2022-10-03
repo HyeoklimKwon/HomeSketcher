@@ -26,7 +26,7 @@ const Canvas2D = (props) =>{
        
 
     useEffect(()=>{
-        console.log(mouseList);
+        
         const canvas = canvasRef.current;
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;

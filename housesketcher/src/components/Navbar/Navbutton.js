@@ -56,14 +56,18 @@ export default function BasicPopover() {
       >
       <div>
         <Typography sx={{ p: 2 }} >
-            <p  onMouseEnter={() => { setRetestHover(true) }} 	     
-            onMouseLeave={() => { setRetestHover(false) }}  onClick={retestClickHandler} style={{ marginTop: '0.5rem', marginBottom : '0.5rem' , cursor:'pointer', color : retestHover? '#F3CD58' : null}}>Retest</p>
-            <hr />
-            <p  onMouseEnter={() => { setEditHover(true) }} 	     
-            onMouseLeave={() => { setEditHover(false) }} onClick= {editClickHandler} style={{ marginTop: '0.5rem', marginBottom : '0.5rem' , cursor:'pointer', color : editHover? '#F3CD58' : null}}>Edit Profile</p>
-            <hr />
-            <p onMouseEnter={() => { setLogoutHover(true) }} 	     
-            onMouseLeave={() => { setLogoutHover(false) }}  onClick={logoutUser} style={{ marginTop: '0.5rem', marginBottom : '0.5rem' , cursor:'pointer',  color : logoutHover? '#F3CD58' : null}}>Logout</p>            
+            <span  onMouseEnter={() => { setRetestHover(true) }} 	     
+            onMouseLeave={() => { setRetestHover(false) }}  onClick={retestClickHandler} style={{ marginTop: '0.5rem', marginBottom : '0.5rem' , cursor:'pointer', color : retestHover? '#F3CD58' : null}}>Retest</span>
+            <br />
+            <span>--------------</span>
+            <br />
+            <span  onMouseEnter={() => { setEditHover(true) }} 	     
+            onMouseLeave={() => { setEditHover(false) }} onClick= {editClickHandler} style={{ marginTop: '0.5rem', marginBottom : '0.5rem' , cursor:'pointer', color : editHover? '#F3CD58' : null}}>Edit Profile</span>
+            <br />
+            <span>--------------</span>
+            <br />
+            <span onMouseEnter={() => { setLogoutHover(true) }} 	     
+            onMouseLeave={() => { setLogoutHover(false) }}  onClick={logoutUser} style={{ marginTop: '0.5rem', marginBottom : '0.5rem' , cursor:'pointer',  color : logoutHover? '#F3CD58' : null}}>Logout</span>            
         </Typography>
 
       </div>
