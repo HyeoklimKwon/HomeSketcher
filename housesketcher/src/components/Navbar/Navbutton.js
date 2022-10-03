@@ -15,42 +15,14 @@ export default function BasicPopover() {
   let [logoutHover, setLogoutHover] = useState(false)
 
   let {user , logoutUser} = useContext(AuthContext)
-  const hisory = useHistory()
+  const history = useHistory()
 
   const retestClickHandler = () => {
-    hisory.push('/tasteanalysis')
+    history.push('/tasteanalysis')
   }
 
   const editClickHandler = () => {
-    new swal({
-      title: 'Edit your profile',
-      input: 'email',
-      inputPlaceholder: 'Example@email.xxx',
-      showCancelButton: true,
-      confirmButtonText: 'Submit',
-      showLoaderOnConfirm: true,
-      preConfirm: (email) => {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            if (email === 'example@email.com') {
-              swal.showValidationError(
-                'This email is already taken.'
-              )
-            }
-            resolve()
-          }, 2000)
-        })
-      },
-      allowOutsideClick: false
-    }).then((result) => {
-      if (result.value) {
-        swal({
-          type: 'success',
-          title: 'Thank you for subscribe!',
-          html: 'Submitted email: ' + result.value
-        })
-      }
-    })
+    history.push('/editprofile')
   }
 
   

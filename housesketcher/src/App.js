@@ -18,6 +18,7 @@ import HomeSketcherAIPage from './pages/HomeSketcherAIPage';
 import { ThemeProvider } from './context/themeProvider';
 import { GlobalStyle } from './theme/GlobalStyle';
 import { ThreeJSContextProvider } from './context/ThreeJSContext';
+import EditProfilePage from './pages/EditProfile';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
                   <Route component={TTTest} exact path="/asd" />
                   <Route component={NewMind} exact path="/new" />
                   <Route component={HomeSketcherAIPage} exaxt path="/ai" />
+                  <PrivateRoute component = {EditProfilePage} exact path = "/editprofile"/>
                 </Switch>
               </ThreeJSContextProvider>
             </ThemeProvider>
