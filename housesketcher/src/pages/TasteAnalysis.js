@@ -87,6 +87,10 @@ function TasteAnalysisPage() {
         }
     }
     
+  var style = ['padding : 30px 20px', 'margin : 20px 0','background : linear-gradient(#F3CD58, #FFE8F3)',
+  'font-size : 25px','font-weight : bold','text-align : center','color : #ffffff'].join(';');
+console.log('%c This is tasteanalysispage in this page, We will find your interior taste!', style);
+    
  return (
     <div style={{ userSelect : 'none' }}>
         <Navbar/>

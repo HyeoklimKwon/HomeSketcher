@@ -24,7 +24,7 @@ function SubCarousel(props) {
       }
     })
     const hotData = await response.data;
-    console.log(hotData);
+    
     setHots(hotData);
   }
 

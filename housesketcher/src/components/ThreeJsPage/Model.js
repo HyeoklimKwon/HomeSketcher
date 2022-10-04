@@ -18,12 +18,9 @@ export default function Model (props)  {
   const [hovered, setHovered] = useState(false)
 
   function clcikHandler(data){
-    console.log('------------')
-    console.log('data',data)
+    
     props.setTarget(data)  
-    console.log('------------')
-    console.log('setTargetsetTargetsetTarget',data)
-    console.log('------------')
+    
     // console.log('target',target)
   }
 
